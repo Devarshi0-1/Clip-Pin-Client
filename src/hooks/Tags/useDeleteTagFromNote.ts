@@ -18,7 +18,7 @@ const useDeleteTagFromNote = () => {
         try {
             const { data } = await axios.delete<TBasicResponse<null>>(
                 `${import.meta.env.VITE_BACKEND_URI}/tags/${noteId}/${tagId}`,
-                {},
+                { withCredentials: true },
             )
 
             toast.success(data.message)

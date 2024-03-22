@@ -14,6 +14,7 @@ const useFetchTags = () => {
         try {
             const { data } = await axios.get<TBasicResponse<TTag[]>>(
                 `${import.meta.env.VITE_BACKEND_URI}/tags/my`,
+                { withCredentials: true },
             )
 
             setTags(data.data)

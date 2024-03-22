@@ -13,7 +13,9 @@ const useFetchNotes = () => {
         setLoading(true)
         try {
             const { data } = await axios.get<TBasicResponse<TNote[]>>(
-                `${import.meta.env.VITE_BACKEND_URI}/notes/my`,
+                `${import.meta.env.VITE_BACKEND_URI}/notes/my`, {
+                    withCredentials: true
+                }
             )
 
             setNotes(data.data)
