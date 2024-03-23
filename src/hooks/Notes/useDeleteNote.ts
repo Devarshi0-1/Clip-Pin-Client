@@ -13,6 +13,7 @@ const useDeleteNote = () => {
         const validationErrors: boolean = handleInputErrors(noteId)
 
         if (!validationErrors) return
+        const prevNotes = [...notes]
 
         deleteNoteInStore(noteId)
 
@@ -40,7 +41,7 @@ const useDeleteNote = () => {
             toast.error(err.message)
         } finally {
             setLoading(false)
-            setNotes([...notes])
+            setNotes(prevNotes)
         }
     }
 
