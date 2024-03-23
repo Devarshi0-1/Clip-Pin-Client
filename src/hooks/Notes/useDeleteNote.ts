@@ -16,6 +16,7 @@ const useDeleteNote = () => {
         const prevNotes = [...notes]
 
         deleteNoteInStore(noteId)
+        setSelectedNoteOpen(false)
 
         setLoading(true)
         try {
