@@ -7,12 +7,14 @@ import { toast } from 'sonner'
 
 const useDeleteNote = () => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { deleteNote: deleteNoteInStore, setSelectedNoteOpen } = useStore()
+    const { deleteNote: deleteNoteInStore, notes, setNotes, setSelectedNoteOpen } = useStore()
 
     const deleteNote = async (noteId: string) => {
         const validationErrors: boolean = handleInputErrors(noteId)
 
         if (!validationErrors) return
+
+        deleteNoteInStore(noteId)
 
         setLoading(true)
         try {
@@ -38,6 +40,7 @@ const useDeleteNote = () => {
             toast.error(err.message)
         } finally {
             setLoading(false)
+            setNotes([...notes])
         }
     }
 

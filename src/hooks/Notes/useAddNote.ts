@@ -14,8 +14,6 @@ const useAddNote = () => {
 
         if (!validationErrors) return
 
-        setLoading(true)
-
         newNote({
             title,
             content,
@@ -26,6 +24,7 @@ const useAddNote = () => {
             updatedAt: new Date(Date.now()),
         })
 
+        setLoading(true)
         try {
             const { data } = await axios.post<TBasicResponse<TNote>>(
                 `${import.meta.env.VITE_BACKEND_URI}/notes/new`,
@@ -43,7 +42,6 @@ const useAddNote = () => {
 
             toast.success(data.message)
             newNote(data.data)
-            deleteNote('temporaryId')
         } catch (error: any) {
             const err = error as AxiosError<TBasicResponse<null>>
 
@@ -54,6 +52,7 @@ const useAddNote = () => {
             toast.error(err.message)
         } finally {
             setLoading(false)
+            deleteNote('temporaryId')
         }
     }
 
