@@ -39,10 +39,10 @@ const useDeleteNote = () => {
                 toast.error(err.response.data.error.message)
                 return
             }
+            setNotes(prevNotes)
             toast.error(err.message)
         } finally {
             setLoading(false)
-            setNotes(prevNotes)
         }
     }
 
