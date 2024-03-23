@@ -29,7 +29,9 @@ const Note: FC<TNoteProps> = ({ note }) => {
     }
 
     return (
-        <Card className='inline-block cursor-pointer bg-secondary' onClick={handleNoteClick}>
+        <Card
+            className={`inline-block cursor-pointer bg-secondary ${note._id === 'temporaryId' ? 'pointer-events-none opacity-70' : ''}`}
+            onClick={handleNoteClick}>
             <CardHeader className='pointer-events-none line-clamp-2 max-h-[100px] text-wrap [&::-webkit-scrollbar]:w-[10px]'>
                 <CardTitle className='whitespace-pre-wrap text-2xl'>{note.title}</CardTitle>
             </CardHeader>

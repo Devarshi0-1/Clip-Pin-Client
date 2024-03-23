@@ -15,6 +15,17 @@ const useAddNote = () => {
         if (!validationErrors) return
 
         setLoading(true)
+
+        newNote({
+            title,
+            content,
+            _id: 'temporaryId',
+            owner: 'temporaryOwner',
+            tags: [],
+            createdAt: new Date(Date.now()),
+            updatedAt: new Date(Date.now()),
+        })
+
         try {
             const { data } = await axios.post<TBasicResponse<TNote>>(
                 `${import.meta.env.VITE_BACKEND_URI}/notes/new`,
