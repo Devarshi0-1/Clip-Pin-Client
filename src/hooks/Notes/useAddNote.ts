@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const useAddNote = () => {
-    const { newNote } = useStore()
+    const { newNote, deleteNote } = useStore()
     const [loading, setLoading] = useState<boolean>(false)
 
     const addNote = async (title: string, content: string) => {
@@ -43,6 +43,7 @@ const useAddNote = () => {
 
             toast.success(data.message)
             newNote(data.data)
+            deleteNote('temporaryId')
         } catch (error: any) {
             const err = error as AxiosError<TBasicResponse<null>>
 
