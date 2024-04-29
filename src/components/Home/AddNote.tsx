@@ -1,13 +1,11 @@
 import { Button } from '@/components/ui/button'
 import useAddNote from '@/hooks/Notes/useAddNote'
-import useStore from '@/zustand/store'
 import type { ClipboardEvent, FC, FormEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { IoAddCircleOutline, IoPricetagOutline } from 'react-icons/io5'
+import { IoAddCircleOutline } from 'react-icons/io5'
 
 const AddNote: FC = () => {
     const { addNote } = useAddNote()
-    const { setTagOpen } = useStore()
 
     const [buttonVisibility, setButtonVisibility] = useState<boolean>(false)
     const titleRef = useRef<HTMLPreElement>(null)
@@ -57,30 +55,30 @@ const AddNote: FC = () => {
                     onPaste={handlePaste}
                     className='w-full text-wrap font-[inherit] text-xl outline-none'
                 />
-                <pre
-                    tabIndex={0}
-                    ref={contentRef}
-                    data-text='Take a note'
-                    contentEditable={true}
-                    onInput={() =>
-                        setButtonVisibility(
-                            !!titleRef.current?.innerText || !!contentRef.current?.innerText,
-                        )
-                    }
-                    onPaste={handlePaste}
-                    className='w-full text-wrap font-[inherit] text-xl outline-none'
-                />
                 {buttonVisibility && (
-                    <Button type='submit' className='w-full'>
-                        Add Note
-                        <IoAddCircleOutline className='ml-1 text-2xl' />
-                    </Button>
+                    <>
+                        <pre
+                            tabIndex={0}
+                            ref={contentRef}
+                            data-text='Take a note'
+                            contentEditable={true}
+                            onInput={() =>
+                                setButtonVisibility(
+                                    !!titleRef.current?.innerText ||
+                                        !!contentRef.current?.innerText,
+                                )
+                            }
+                            onPaste={handlePaste}
+                            className='w-full text-wrap font-[inherit] text-xl outline-none'
+                        />
+
+                        <Button type='submit' className='w-full'>
+                            Add Note
+                            <IoAddCircleOutline className='ml-1 text-2xl' />
+                        </Button>
+                    </>
                 )}
             </form>
-            <Button type='button' variant='secondary' onClick={() => setTagOpen(true)}>
-                Tags
-                <IoPricetagOutline className='ml-2 text-sm' />
-            </Button>
         </div>
     )
 }

@@ -1,19 +1,19 @@
-import useStore from '@/zustand/store'
-import type { FC } from 'react'
+import { TNote } from '@/types'
 import { Masonry } from 'react-plock'
-import SearchBar from '../SearchBar'
+import { useSearchParams } from 'react-router-dom'
 import Note from './Note'
-import Sort from './Sort'
 
-const Notes: FC = () => {
-    const { notes, filteredNotes, searchTerm } = useStore()
+type TNotesProps = {
+    notes: TNote[] | []
+    filteredNotes: TNote[] | []
+}
+
+const Notes = ({ notes, filteredNotes }: TNotesProps) => {
+    const [searchParams] = useSearchParams({ search: '' })
+    const searchTerm = searchParams.get('search') || ''
 
     return (
         <>
-            <div className='flex gap-3 px-16'>
-                <SearchBar />
-                <Sort />
-            </div>
             {searchTerm.length ? (
                 filteredNotes.length ? (
                     <Masonry
@@ -24,7 +24,7 @@ const Notes: FC = () => {
                             media: [640, 768, 1024],
                         }}
                         render={(note) => <Note key={note._id} note={note} />}
-                        className='mx-auto mt-10 w-full px-20'
+                        className='mx-auto mt-10 w-full'
                     />
                 ) : (
                     <p className='mt-10 w-full text-center text-3xl'>No Notes Found!</p>
@@ -38,7 +38,7 @@ const Notes: FC = () => {
                         media: [640, 768, 1024],
                     }}
                     render={(note) => <Note key={note._id} note={note} />}
-                    className='mx-auto mt-10 w-full px-20'
+                    className='mx-auto mt-10 w-full'
                 />
             ) : (
                 <p className='mt-10 w-full text-center text-3xl'>Create your First Note</p>

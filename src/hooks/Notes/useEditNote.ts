@@ -3,17 +3,18 @@ import { isEmpty } from '@/utils/userValidation'
 import useStore from '@/zustand/store'
 import axios, { AxiosError } from 'axios'
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const useEditNote = () => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { editNote: editNoteInStore } = useStore()
+    const { editNote: editNoteInStore, editArchivedNote: editArchivedNoteInStore } = useStore()
+    const location = useLocation()
 
     const editNote = async (noteId: string, title: string, content: string) => {
         const validationErrors: boolean = handleInputErrors(noteId)
 
         if (!validationErrors) return
-
         setLoading(true)
         try {
             const { data } = await axios.put<TBasicResponse<TNote>>(
@@ -23,7 +24,9 @@ const useEditNote = () => {
             )
 
             toast.success(data.message)
-            editNoteInStore(data.data)
+
+            location.pathname === '/home' && editNoteInStore(data.data)
+            location.pathname === '/archived' && editArchivedNoteInStore(data.data)
         } catch (error) {
             const err = error as AxiosError<TBasicResponse<null>>
 
@@ -43,9 +46,6 @@ const useEditNote = () => {
 const handleInputErrors = (noteId: string) => {
     if (isEmpty(noteId)) {
         toast.error('Something went wrong! Try reloading')
-
-        // Remove
-        console.log(noteId)
         return false
     }
 

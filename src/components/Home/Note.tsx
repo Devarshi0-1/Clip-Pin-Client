@@ -3,8 +3,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import useDeleteTagFromNote from '@/hooks/Tags/useDeleteTagFromNote'
 import { TNote } from '@/types'
 import useStore from '@/zustand/store'
+import { X } from 'lucide-react'
 import { MouseEvent, type FC } from 'react'
-import { RxCross2 } from 'react-icons/rx'
 
 interface TNoteProps {
     note: TNote
@@ -41,12 +41,12 @@ const Note: FC<TNoteProps> = ({ note }) => {
             <CardFooter className='space-x-2 p-3 px-6'>
                 <div className='flex flex-wrap gap-x-2 gap-y-2'>
                     {note?.tags.map((tag) => (
-                        <Badge key={tag._id} className='text-sm'>
+                        <Badge key={tag._id} className='text-sm hover:bg-primary'>
                             <p className='max-w-20 overflow-hidden text-ellipsis whitespace-nowrap'>
                                 {tag.name}
                             </p>
-                            <RxCross2
-                                className='ml-2 cursor-pointer text-red-500'
+                            <X
+                                className='ml-2 h-4 w-4 cursor-pointer rounded-sm hover:bg-red-300'
                                 onClick={(e) => handleTagDelete(e, note._id, tag._id)}
                             />
                         </Badge>

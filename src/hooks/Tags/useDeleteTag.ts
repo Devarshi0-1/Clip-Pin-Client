@@ -46,9 +46,6 @@ const useDeleteTag = () => {
 const handleInputErrors = (tagId: string) => {
     if (isEmpty(tagId)) {
         toast.error('Something went wrong! Try reloading')
-
-        // Remove
-        console.log(tagId)
         return false
     }
 

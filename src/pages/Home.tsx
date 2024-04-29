@@ -1,33 +1,15 @@
-import LogoutButton from '@/components/LogoutButton'
-import useFetchNotes from '@/hooks/Notes/useFetchNotes'
-import useFetchTags from '@/hooks/Tags/useFetchTags'
+import AddNote from '@/components/Home/AddNote'
+import Notes from '@/components/Home/Notes'
 import useStore from '@/zustand/store'
-import { useEffect, type FC } from 'react'
-import AddNote from '../components/Home/AddNote'
-import Notes from '../components/Home/Notes'
-import SelectedNote from '../components/Home/SelectedNote'
-import TagDialog from '../components/Home/TagsDialog'
-import NavBar from '@/components/NavBar'
 
-const Home: FC = () => {
-    const { tagOpen, selectedNoteOpen } = useStore()
-    const { getUserNotes } = useFetchNotes()
-    const { getUserTags } = useFetchTags()
-
-    useEffect(() => {
-        getUserNotes()
-        getUserTags()
-    }, [])
+const Home = () => {
+    const { notes, filteredNotes } = useStore()
 
     return (
-        <>
-            <NavBar />
+        <div className='px-20'>
             <AddNote />
-            <Notes />
-            {selectedNoteOpen && <SelectedNote />}
-            {tagOpen && <TagDialog />}
-            <LogoutButton />
-        </>
+            <Notes key='home' notes={notes} filteredNotes={filteredNotes} />
+        </div>
     )
 }
 export default Home

@@ -1,10 +1,11 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import useAddTagToNote from '@/hooks/Tags/useAddTagToNote'
 import useStore from '@/zustand/store'
+import { Tag } from 'lucide-react'
 import { IoMdAdd } from 'react-icons/io'
-import { IoPricetagOutline } from 'react-icons/io5'
 
 const AddTagPopover = () => {
     const { tags: userAllTags, selectedNote } = useStore()
@@ -22,11 +23,20 @@ const AddTagPopover = () => {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button variant='ghost'>
-                    <IoPricetagOutline className='text-xl' />
-                </Button>
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant='outline'>
+                                <Tag className='h-4 w-4' />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Add Tags</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
             </PopoverTrigger>
-            <PopoverContent className='max-w-80 w-fit'>
+            <PopoverContent className='w-fit max-w-80'>
                 <div>
                     {exclusiveTags.length ? (
                         exclusiveTags.map((tag) => (

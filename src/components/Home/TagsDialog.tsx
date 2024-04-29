@@ -9,7 +9,6 @@ import Tag from './Tag'
 
 const TagsDialog = () => {
     const { tagOpen, setTagOpen, tags } = useStore()
-
     const { addTag } = useCreateTag()
 
     const [name, setName] = useState<string>('')
@@ -28,7 +27,7 @@ const TagsDialog = () => {
 
     return (
         <Dialog open={tagOpen} onOpenChange={setTagOpen}>
-            <DialogContent className='flex-8 flex h-fit max-h-[80%] min-w-[40%] flex-col'>
+            <DialogContent className='flex-8 flex h-fit max-h-[80%] min-w-[40%] flex-col p-0'>
                 <Card className='h-full overflow-y-auto border-none'>
                     <CardHeader>
                         <CardTitle className='text-3xl'>Tags</CardTitle>
@@ -43,6 +42,7 @@ const TagsDialog = () => {
                             placeholder='Create Tag'
                             value={name}
                             ref={createTagRef}
+                            className='focus-visible:ring-0'
                             onChange={(e) => setName(e.target.value)}
                         />
                     </CardContent>

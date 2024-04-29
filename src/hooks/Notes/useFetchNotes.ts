@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const useFetchNotes = () => {
-    const { setNotes } = useStore()
+    const { setNotes, setArchivedNotes } = useStore()
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -13,12 +13,22 @@ const useFetchNotes = () => {
         setLoading(true)
         try {
             const { data } = await axios.get<TBasicResponse<TNote[]>>(
-                `${import.meta.env.VITE_BACKEND_URI}/notes/my`, {
-                    withCredentials: true
-                }
+                `${import.meta.env.VITE_BACKEND_URI}/notes/my`,
+                {
+                    withCredentials: true,
+                },
             )
 
-            setNotes(data.data)
+            const tempNotes: TNote[] = []
+            const tempArchivedNotes: TNote[] = []
+
+            data.data.forEach((note) => {
+                if (note.isArchived) tempArchivedNotes.push(note)
+                else tempNotes.push(note)
+            })
+
+            setNotes(tempNotes)
+            setArchivedNotes(tempArchivedNotes)
 
             if (data.data.length) toast.success(data.message)
         } catch (error: any) {

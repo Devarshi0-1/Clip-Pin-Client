@@ -21,6 +21,7 @@ export type TNote = {
     title: string
     tags: TTag[]
     content: string
+    isArchived: boolean
     createdAt: Date
     updatedAt: Date
 }

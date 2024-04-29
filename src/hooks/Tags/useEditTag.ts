@@ -43,9 +43,6 @@ const useEditTag = () => {
 const handleInputErrors = (tagId: string, name: string) => {
     if (isEmpty(tagId)) {
         toast.error('Something went wrong! Try reloading')
-
-        // Remove
-        console.log(tagId)
         return false
     } else if (isEmpty(name)) {
         toast.error('Please Tag Name!')

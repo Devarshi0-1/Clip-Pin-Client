@@ -19,6 +19,7 @@ const useAddNote = () => {
             content,
             _id: 'temporaryId',
             owner: 'temporaryOwner',
+            isArchived: false,
             tags: [],
             createdAt: new Date(Date.now()),
             updatedAt: new Date(Date.now()),

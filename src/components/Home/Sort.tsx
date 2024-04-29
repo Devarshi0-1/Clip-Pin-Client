@@ -1,5 +1,4 @@
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons'
-
 import { Button } from '@/components/ui/button'
 import { Command, CommandGroup, CommandItem } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -7,6 +6,7 @@ import useNoteSort from '@/hooks/useNotesSort'
 import { TSort } from '@/types'
 import useStore from '@/zustand/store'
 import { useEffect, useState } from 'react'
+import { useLocation, useSearchParams } from 'react-router-dom'
 
 interface SortingOption {
     value: TSort
@@ -30,14 +30,23 @@ const sortingTypes: SortingOption[] = [
 
 const Sort = () => {
     const [open, setOpen] = useState<boolean>(false)
-    const [value, setValue] = useState<string>('latest')
-    const { notes } = useStore()
+    const [value, setValue] = useState<TSort>('latest')
+    const { notes, archivedNotes } = useStore()
     const { sortNotes } = useNoteSort()
+    const [_, setSearchParams] = useSearchParams({ sort: '' })
+    const location = useLocation()
 
     useEffect(() => {
-        if (value !== 'latest' && value !== 'oldest' && value !== 'updated') return
-        sortNotes(value)
-    }, [notes, value])
+        location.pathname === '/home' && sortNotes(notes, value)
+        location.pathname === '/archived' && sortNotes(archivedNotes, value)
+    }, [notes, archivedNotes, location])
+
+    useEffect(() => {
+        setSearchParams((prev) => {
+            prev.set('sort', value)
+            return prev
+        })
+    }, [value])
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -61,7 +70,7 @@ const Sort = () => {
                                 key={sortingType.value}
                                 value={sortingType.value}
                                 onSelect={(currentValue) => {
-                                    setValue(currentValue)
+                                    setValue(currentValue as TSort)
                                     setOpen(false)
                                 }}>
                                 {sortingType.label}

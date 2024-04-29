@@ -1,29 +1,41 @@
 import useStore from '@/zustand/store'
+import { Search } from 'lucide-react'
 import { useEffect } from 'react'
-import { CiSearch } from 'react-icons/ci'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { Input } from './ui/input'
 
 export default function SearchBar() {
-    const { setFilteredNotes, searchTerm, setSearchTerm } = useStore()
+    const { archivedNotes, notes, setFilteredNotes } = useStore()
+    const [searchParams, setSearchParams] = useSearchParams({ search: '' })
+    const location = useLocation()
 
     let timerId: NodeJS.Timeout
     useEffect(() => {
         clearTimeout(timerId)
         timerId = setTimeout(() => {
-            setFilteredNotes()
-        }, 800)
+            location.pathname === '/home' &&
+                setFilteredNotes(notes, searchParams.get('search') || '')
+            location.pathname === '/archived' &&
+                setFilteredNotes(archivedNotes, searchParams.get('search') || '')
+        }, 700)
 
         return () => clearTimeout(timerId)
-    }, [searchTerm])
+    }, [searchParams.get('search'), location])
 
     return (
-        <div className='ml-auto flex w-fit items-center gap-2 rounded-full border focus-within:border-white focus-within:outline-2 focus:border-2 focus:border-white'>
-            <CiSearch className='ml-2 text-2xl' />
+        <div className='relative'>
+            <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
             <Input
                 type='search'
-                placeholder='Search...'
-                className='flex-1 border-0 border-none py-0 text-sm shadow-none focus-visible:ring-0'
-                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder='Search by Text or Tag'
+                className='min-w-64 appearance-none bg-background pl-8 shadow-none'
+                value={searchParams.get('search') || ''}
+                onChange={(e) => {
+                    setSearchParams((prev) => {
+                        prev.set('search', e.target.value)
+                        return prev
+                    })
+                }}
             />
         </div>
     )

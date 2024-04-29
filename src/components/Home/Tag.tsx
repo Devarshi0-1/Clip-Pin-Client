@@ -24,11 +24,11 @@ const Tag = ({ tag }: Props) => {
     }
 
     return (
-        <div className='flex items-center justify-between bg-card px-3 text-card-foreground shadow'>
+        <div className='flex items-center justify-between rounded-sm border bg-card px-3 py-1 text-card-foreground shadow-none'>
             <Input
                 value={tagName}
                 onChange={(e) => setTagName(e.target.value)}
-                className='border-none'
+                className='border-none focus-visible:ring-0'
                 type='text'
             />
             <div className='flex items-center gap-3'>

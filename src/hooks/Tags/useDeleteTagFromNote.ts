@@ -3,11 +3,16 @@ import { isEmpty } from '@/utils/userValidation'
 import useStore from '@/zustand/store'
 import axios, { AxiosError } from 'axios'
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const useDeleteTagFromNote = () => {
-    const { removeTagFromNote: removeTagFromNoteInStore } = useStore()
+    const {
+        removeTagFromNote: removeTagFromNoteInStore,
+        removeTagFromArchivedNote: removeTagFromArchivedNoteInStore,
+    } = useStore()
     const [loading, setLoading] = useState<boolean>(false)
+    const location = useLocation()
 
     const removeTagFromNote = async (noteId: string, tagId: string) => {
         const validationErrors: boolean = handleInputErrors(noteId, tagId)
@@ -22,7 +27,9 @@ const useDeleteTagFromNote = () => {
             )
 
             toast.success(data.message)
-            removeTagFromNoteInStore(noteId, tagId)
+
+            location.pathname === '/home' && removeTagFromNoteInStore(noteId, tagId)
+            location.pathname === '/archived' && removeTagFromArchivedNoteInStore(noteId, tagId)
         } catch (error: any) {
             const err = error as AxiosError<TBasicResponse<null>>
 
@@ -42,9 +49,6 @@ const useDeleteTagFromNote = () => {
 const handleInputErrors = (noteId: string, tagId: string) => {
     if (isEmpty(noteId) && isEmpty(tagId)) {
         toast.error('Something went wrong! Try reloading')
-
-        // Remove
-        console.log(noteId, tagId)
         return false
     }
 

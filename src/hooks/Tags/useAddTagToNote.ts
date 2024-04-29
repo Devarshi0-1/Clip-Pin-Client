@@ -3,11 +3,14 @@ import { isEmpty } from '@/utils/userValidation'
 import useStore from '@/zustand/store'
 import axios, { AxiosError } from 'axios'
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const useAddTagToNote = () => {
-    const { addTagToNote: addTagToNoteInStore } = useStore()
+    const { addTagToNote: addTagToNoteInStore, addTagToArchivedNote: addTagToArchivedNoteInStore } =
+        useStore()
     const [loading, setLoading] = useState<boolean>(false)
+    const location = useLocation()
 
     const addTagToNote = async (noteId: string, tagId: string) => {
         const validationErrors: boolean = handleInputErrors(noteId, tagId)
@@ -28,7 +31,9 @@ const useAddTagToNote = () => {
             )
 
             toast.success(data.message)
-            addTagToNoteInStore(noteId, data.data)
+
+            location.pathname === '/home' && addTagToNoteInStore(noteId, data.data)
+            location.pathname === '/archived' && addTagToArchivedNoteInStore(noteId, data.data)
         } catch (error: any) {
             const err = error as AxiosError<TBasicResponse<null>>
 
@@ -48,9 +53,6 @@ const useAddTagToNote = () => {
 const handleInputErrors = (noteId: string, tagId: string) => {
     if (isEmpty(noteId) && isEmpty(tagId)) {
         toast.error('Something went wrong! Try reloading')
-
-        // Remove
-        console.log(noteId, tagId)
         return false
     }
 
