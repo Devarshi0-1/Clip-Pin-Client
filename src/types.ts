@@ -19,12 +19,13 @@ export type TNote = {
     _id: string
     owner: string
     title: string
-    tags: TTag[]
+    tags: TTag[] | []
     content: string
+    isBookmarked: boolean
     isArchived: boolean
     createdAt: Date
     updatedAt: Date
-}
+} /*& { isActive: boolean; isHighlighted: boolean } */
 
 export type TBasicResponse<T> = {
     success: boolean
@@ -37,3 +38,5 @@ export type TBasicResponse<T> = {
 }
 
 export type TSort = 'latest' | 'oldest' | 'updated'
+
+export type TNotes = 'notes' | 'archivedNotes' | 'bookmarkedNotes'

@@ -6,24 +6,13 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const useAddNote = () => {
-    const { newNote, deleteNote } = useStore()
+    const { newNote } = useStore()
     const [loading, setLoading] = useState<boolean>(false)
 
     const addNote = async (title: string, content: string) => {
         const validationErrors: boolean = handleInputErrors(title, content)
 
         if (!validationErrors) return
-
-        newNote({
-            title,
-            content,
-            _id: 'temporaryId',
-            owner: 'temporaryOwner',
-            isArchived: false,
-            tags: [],
-            createdAt: new Date(Date.now()),
-            updatedAt: new Date(Date.now()),
-        })
 
         setLoading(true)
         try {
@@ -53,7 +42,6 @@ const useAddNote = () => {
             toast.error(err.message)
         } finally {
             setLoading(false)
-            deleteNote('temporaryId')
         }
     }
 

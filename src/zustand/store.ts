@@ -4,61 +4,106 @@ import { create } from 'zustand'
 interface store {
     selectedNoteOpen: boolean
     setSelectedNoteOpen: (selectedNoteOpen: boolean) => void
+
     tagOpen: boolean
     setTagOpen: (tagOpen: boolean) => void
+
     sidebarOpen: boolean
     setSidebarOpen: (sidebarOpen: boolean) => void
+
     selectedNote: TNote | null
-    setSelectedNote: (selectedNote: TNote) => void
-    notes: TNote[] | []
-    archivedNotes: TNote[] | []
-    setNotes: (newNotes: TNote[] | []) => void
-    setArchivedNotes: (newNotes: TNote[] | []) => void
+    setSelectedNote: (selectedNote: TNote | null) => void
+
+    notes: Array<TNote> | []
+    setNotes: (newNotes: Array<TNote> | []) => void
     newNote: (newNote: TNote) => void
-    newArchivedNote: (newNote: TNote) => void
-    deleteNote: (noteId: string) => void
-    deleteArchivedNote: (noteId: string) => void
+    deleteNote: (newNote: TNote) => void
     editNote: (newNote: TNote) => void
+
+    archivedNotes: Array<TNote> | []
+    setArchivedNotes: (newNotes: Array<TNote> | []) => void
+    newArchivedNote: (newNote: TNote) => void
+    deleteArchivedNote: (newNote: TNote) => void
     editArchivedNote: (newNote: TNote) => void
-    filteredNotes: TNote[] | []
-    setFilteredNotes: (data: TNote[], searchParam: string) => void
-    tags: TTag[] | []
-    setTags: (newTags: TTag[] | []) => void
+
+    bookmarkedNotes: Array<TNote> | []
+    deleteBookmarkedNote: (newNote: TNote) => void
+    newBookmarkNote: (note: TNote) => void
+    editBookmarkedNote: (newNote: TNote) => void
+    setBookmarkedNotes: (newNotes: Array<TNote> | []) => void
+
+    filteredNotes: Array<TNote> | []
+    setFilteredNotes: (data: Array<TNote>, searchParam: string) => void
+
+    tags: Array<TTag> | []
+    setTags: (newTags: Array<TTag> | []) => void
     newTag: (newTag: TTag) => void
     deleteTag: (tagId: string) => void
     editTag: (newTag: TTag) => void
-    addTagToNote: (noteId: string, tag: TTag) => void
-    addTagToArchivedNote: (noteId: string, tag: TTag) => void
-    removeTagFromNote: (noteId: string, tagId: string) => void
-    removeTagFromArchivedNote: (noteId: string, tagId: string) => void
+    addTagToNote: (newNote: TNote, tag: TTag) => void
+    addTagToArchivedNote: (newNote: TNote, tag: TTag) => void
+    removeTagFromNote: (newNote: TNote, tagId: string) => void
+    removeTagFromBookmarkedNote: (newNote: TNote, tagId: string) => void
+    removeTagFromArchivedNote: (newNote: TNote, tagId: string) => void
+    addTagToBookmarkedNote: (newNote: TNote, tag: TTag) => void
+
+    tabList: Array<TNote>
+    addTab: (newNote: TNote) => void
+    removeTab: (newNote: TNote) => void
+
+    highlightMode: boolean
+    setHighlightMode: (mode: boolean) => void
 }
 
 const useStore = create<store>((set) => ({
     selectedNoteOpen: false,
     setSelectedNoteOpen: (selectedNoteOpen) => set({ selectedNoteOpen }),
+
     tagOpen: false,
     setTagOpen: (tagOpen) => set({ tagOpen }),
+
     sidebarOpen: false,
     setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
+
     selectedNote: null,
     setSelectedNote: (newSelectedNote) => set({ selectedNote: newSelectedNote }),
+
+    bookmarkedNotes: [],
+    setBookmarkedNotes: (newNotes) => set({ bookmarkedNotes: newNotes }),
+    newBookmarkNote: (newNote) =>
+        set((state) => ({
+            bookmarkedNotes: [newNote, ...state.bookmarkedNotes],
+        })),
+    deleteBookmarkedNote: (newNote) =>
+        set((state) => ({
+            bookmarkedNotes: state.bookmarkedNotes.filter((note) => note._id !== newNote._id),
+            tabList: state.tabList.filter((note) => note._id !== newNote._id),
+        })),
+    editBookmarkedNote: (newNote) =>
+        set((state) => ({
+            bookmarkedNotes: state.bookmarkedNotes.map((note) =>
+                note._id === newNote._id ? newNote : note,
+            ),
+        })),
     notes: [],
-    archivedNotes: [],
     setNotes: (newNotes) => set({ notes: newNotes }),
-    setArchivedNotes: (newNotes) => set({ archivedNotes: newNotes }),
     newNote: (newNote) => set((state) => ({ notes: [newNote, ...state.notes] })),
-    newArchivedNote: (newNote) => set((state) => ({ archivedNotes: [newNote, ...state.archivedNotes] })),
-    deleteNote: (noteId) =>
-        set((state) => ({
-            notes: state.notes.filter((note) => note._id !== noteId),
-        })),
-    deleteArchivedNote: (noteId) =>
-        set((state) => ({
-            archivedNotes: state.archivedNotes.filter((note) => note._id !== noteId),
-        })),
     editNote: (newNote) =>
         set((state) => ({
             notes: state.notes.map((note) => (note._id === newNote._id ? newNote : note)),
+        })),
+    deleteNote: (newNote) =>
+        set((state) => ({
+            notes: state.notes.filter((note) => note._id !== newNote._id),
+        })),
+
+    archivedNotes: [],
+    setArchivedNotes: (newNotes) => set({ archivedNotes: newNotes }),
+    newArchivedNote: (newNote) =>
+        set((state) => ({ archivedNotes: [newNote, ...state.archivedNotes] })),
+    deleteArchivedNote: (newNote) =>
+        set((state) => ({
+            archivedNotes: state.archivedNotes.filter((note) => note._id !== newNote._id),
         })),
     editArchivedNote: (newNote) =>
         set((state) => ({
@@ -66,6 +111,7 @@ const useStore = create<store>((set) => ({
                 note._id === newNote._id ? newNote : note,
             ),
         })),
+
     filteredNotes: [],
     setFilteredNotes: (data, searchParam) =>
         set(() => ({
@@ -80,6 +126,7 @@ const useStore = create<store>((set) => ({
                 )
             }),
         })),
+
     tags: [],
     setTags: (newTags) => set(() => ({ tags: newTags })),
     newTag: (newTag) => set((state) => ({ tags: [newTag, ...state.tags] })),
@@ -102,34 +149,64 @@ const useStore = create<store>((set) => ({
                 return note
             }),
         })),
-    addTagToNote: (noteId, tag) =>
+    addTagToNote: (newNote, tag) =>
         set((state) => ({
             notes: state.notes.map((note) => {
-                if (note._id === noteId) note.tags = [...note.tags, tag]
+                if (note._id === newNote._id) note.tags = [tag, ...note.tags]
                 return note
             }),
         })),
-    addTagToArchivedNote: (noteId, tag) =>
+    addTagToArchivedNote: (newNote, tag) =>
         set((state) => ({
             archivedNotes: state.archivedNotes.map((note) => {
-                if (note._id === noteId) note.tags = [...note.tags, tag]
+                if (note._id === newNote._id) note.tags = [...note.tags, tag]
                 return note
             }),
         })),
-    removeTagFromNote: (noteId, tagId) =>
+    addTagToBookmarkedNote: (newNote, tag) =>
+        set((state) => ({
+            bookmarkedNotes: state.bookmarkedNotes.map((note) => {
+                if (note._id === newNote._id) note.tags = [...note.tags, tag]
+                return note
+            }),
+        })),
+    removeTagFromBookmarkedNote: (newNote, tagId) =>
+        set((state) => ({
+            bookmarkedNotes: state.bookmarkedNotes.map((note) => {
+                if (note._id === newNote._id)
+                    note.tags = note.tags.filter((tag) => tag._id !== tagId)
+                return note
+            }),
+        })),
+    removeTagFromNote: (newNote, tagId) =>
         set((state) => ({
             notes: state.notes.map((note) => {
-                if (note._id === noteId) note.tags = note.tags.filter((tag) => tag._id !== tagId)
+                if (note._id === newNote._id)
+                    note.tags = note.tags.filter((tag) => tag._id !== tagId)
                 return note
             }),
         })),
-    removeTagFromArchivedNote: (noteId, tagId) =>
+    removeTagFromArchivedNote: (newNote, tagId) =>
         set((state) => ({
             archivedNotes: state.archivedNotes.map((note) => {
-                if (note._id === noteId) note.tags = note.tags.filter((tag) => tag._id !== tagId)
+                if (note._id === newNote._id)
+                    note.tags = note.tags.filter((tag) => tag._id !== tagId)
                 return note
             }),
         })),
+
+    tabList: [],
+    addTab: (newNote) =>
+        set((state) => ({
+            tabList: state.tabList.includes(newNote) ? state.tabList : [newNote, ...state.tabList],
+        })),
+    removeTab: (newNote) =>
+        set((state) => ({
+            tabList: state.tabList.filter((note) => note._id !== newNote._id),
+        })),
+
+    highlightMode: false,
+    setHighlightMode: (mode) => set(() => ({ highlightMode: mode })),
 }))
 
 export default useStore

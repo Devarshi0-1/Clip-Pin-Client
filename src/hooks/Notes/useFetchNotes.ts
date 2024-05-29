@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const useFetchNotes = () => {
-    const { setNotes, setArchivedNotes } = useStore()
+    const { setNotes, setArchivedNotes, setBookmarkedNotes } = useStore()
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -21,13 +21,16 @@ const useFetchNotes = () => {
 
             const tempNotes: TNote[] = []
             const tempArchivedNotes: TNote[] = []
+            const tempBookmarkedNotes: TNote[] = []
 
             data.data.forEach((note) => {
-                if (note.isArchived) tempArchivedNotes.push(note)
+                if (note.isBookmarked) tempBookmarkedNotes.push(note)
+                else if (note.isArchived) tempArchivedNotes.push(note)
                 else tempNotes.push(note)
             })
 
             setNotes(tempNotes)
+            setBookmarkedNotes(tempBookmarkedNotes)
             setArchivedNotes(tempArchivedNotes)
 
             if (data.data.length) toast.success(data.message)

@@ -1,4 +1,4 @@
-import { TBasicResponse, TTag } from '@/types'
+import { TBasicResponse, TNote, TTag } from '@/types'
 import { isEmpty } from '@/utils/userValidation'
 import useStore from '@/zustand/store'
 import axios, { AxiosError } from 'axios'
@@ -12,15 +12,15 @@ const useAddTagToNote = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const location = useLocation()
 
-    const addTagToNote = async (noteId: string, tagId: string) => {
-        const validationErrors: boolean = handleInputErrors(noteId, tagId)
+    const addTagToNote = async (note: TNote, tagId: string) => {
+        const validationErrors: boolean = handleInputErrors(note._id, tagId)
 
         if (!validationErrors) return
 
         setLoading(true)
         try {
             const { data } = await axios.post<TBasicResponse<TTag>>(
-                `${import.meta.env.VITE_BACKEND_URI}/tags/${noteId}/${tagId}`,
+                `${import.meta.env.VITE_BACKEND_URI}/tags/${note._id}/${tagId}`,
                 {},
                 {
                     headers: {
@@ -32,8 +32,8 @@ const useAddTagToNote = () => {
 
             toast.success(data.message)
 
-            location.pathname === '/home' && addTagToNoteInStore(noteId, data.data)
-            location.pathname === '/archived' && addTagToArchivedNoteInStore(noteId, data.data)
+            location.pathname === '/home' && addTagToNoteInStore(note, data.data)
+            location.pathname === '/archived' && addTagToArchivedNoteInStore(note, data.data)
         } catch (error: any) {
             const err = error as AxiosError<TBasicResponse<null>>
 

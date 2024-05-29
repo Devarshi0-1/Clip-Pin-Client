@@ -1,10 +1,10 @@
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
 import { Command, CommandGroup, CommandItem } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import useNoteSort from '@/hooks/useNotesSort'
+import useNoteSort from '@/hooks/Notes/useNotesSort'
 import { TSort } from '@/types'
 import useStore from '@/zustand/store'
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons'
 import { useEffect, useState } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
 
@@ -31,15 +31,19 @@ const sortingTypes: SortingOption[] = [
 const Sort = () => {
     const [open, setOpen] = useState<boolean>(false)
     const [value, setValue] = useState<TSort>('latest')
-    const { notes, archivedNotes } = useStore()
+    const { notes, archivedNotes, bookmarkedNotes } = useStore()
     const { sortNotes } = useNoteSort()
     const [_, setSearchParams] = useSearchParams({ sort: '' })
     const location = useLocation()
 
     useEffect(() => {
-        location.pathname === '/home' && sortNotes(notes, value)
-        location.pathname === '/archived' && sortNotes(archivedNotes, value)
-    }, [notes, archivedNotes, location])
+        if (location.pathname === '/home') {
+            sortNotes(notes, 'notes', value)
+            sortNotes(bookmarkedNotes, 'bookmarkedNotes', value)
+        } else {
+            sortNotes(archivedNotes, 'archivedNotes', value)
+        }
+    }, [notes, archivedNotes, bookmarkedNotes, location])
 
     useEffect(() => {
         setSearchParams((prev) => {
@@ -62,7 +66,7 @@ const Sort = () => {
                     <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className='w-[200px] p-0'>
+            <PopoverContent className='mt-5 w-[200px] p-0'>
                 <Command>
                     <CommandGroup>
                         {sortingTypes.map((sortingType) => (

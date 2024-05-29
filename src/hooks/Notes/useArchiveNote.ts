@@ -6,16 +6,13 @@ import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 
-const useEditNote = () => {
+const useArchivedNote = () => {
     const [loading, setLoading] = useState<boolean>(false)
-    const {
-        editNote: editNoteInStore,
-        editArchivedNote: editArchivedNoteInStore,
-        editBookmarkedNote: editBookmarkedNoteInStore,
-    } = useStore()
+    const { newNote, newArchivedNote, deleteNote, deleteArchivedNote, setSelectedNoteOpen } =
+        useStore()
     const location = useLocation()
 
-    const editNote = async (note: TNote, title: string, content: string) => {
+    const archiveNote = async (note: TNote, isArchived: boolean) => {
         const validationErrors: boolean = handleInputErrors(note._id)
 
         if (!validationErrors) return
@@ -23,16 +20,21 @@ const useEditNote = () => {
         try {
             const { data } = await axios.put<TBasicResponse<TNote>>(
                 `${import.meta.env.VITE_BACKEND_URI}/notes/${note._id}`,
-                { title, content },
+                { isArchived },
                 { headers: { 'Content-Type': 'application/json' }, withCredentials: true },
             )
 
             toast.success(data.message)
-
             if (location.pathname === '/home' && data.data.isBookmarked)
-                editBookmarkedNoteInStore(data.data)
-            else if (location.pathname === '/home') editNoteInStore(data.data)
-            else if (location.pathname === '/archived') editArchivedNoteInStore(data.data)
+                return toast.error('Cannot archive a bookmarked note!')
+            else if (location.pathname === '/home') {
+                deleteNote(note)
+                newArchivedNote(data.data)
+            } else if (location.pathname === '/archived') {
+                deleteArchivedNote(note)
+                newNote(data.data)
+            }
+            setSelectedNoteOpen(false)
         } catch (error) {
             const err = error as AxiosError<TBasicResponse<null>>
 
@@ -46,7 +48,7 @@ const useEditNote = () => {
         }
     }
 
-    return { loading, editNote }
+    return { loading, archiveNote }
 }
 
 const handleInputErrors = (noteId: string) => {
@@ -58,4 +60,4 @@ const handleInputErrors = (noteId: string) => {
     return true
 }
 
-export default useEditNote
+export default useArchivedNote

@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 
-const useDeleteNote = () => {
+const useBatchDeleteNote = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const {
         deleteNote: deleteNoteInStore,
@@ -20,33 +20,40 @@ const useDeleteNote = () => {
     } = useStore()
     const location = useLocation()
 
-    const deleteNote = async (note: TNote) => {
-        const validationErrors: boolean = handleInputErrors(note._id)
+    const batchDeleteNotes = async (notesToDelete: TNote[]) => {
+        const notesToDeleteIds = notesToDelete.map((note) => note._id)
+
+        const validationErrors: boolean = handleInputErrors(...notesToDeleteIds)
 
         if (!validationErrors) return
         const prevNotes = [...notes]
 
-        if (location.pathname === '/home' && note.isBookmarked) deleteBookmarkedNoteInStore(note)
-        else if (location.pathname === '/home') deleteNoteInStore(note)
-        else if (location.pathname === '/archived') deleteArchivedNoteInStore(note)
-
-        removeTab(note)
+        notesToDelete.forEach((note) => {
+            if (location.pathname === '/home' && note.isBookmarked)
+                deleteBookmarkedNoteInStore(note)
+            else if (location.pathname === '/home') deleteNoteInStore(note)
+            else if (location.pathname === '/archived') deleteArchivedNoteInStore(note)
+            removeTab(note)
+        })
 
         setSelectedNoteOpen(false)
         setLoading(true)
         try {
             const { data } = await axios.delete<TBasicResponse<null>>(
-                `${import.meta.env.VITE_BACKEND_URI}/notes/${note._id}`,
+                `${import.meta.env.VITE_BACKEND_URI}/notes/batch-delete`,
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true,
+                    data: { selectedNotes: notesToDeleteIds },
                 },
             )
 
             toast.success(data.message)
 
-            location.pathname === '/home' && deleteNoteInStore(note)
-            location.pathname === '/archived' && deleteArchivedNoteInStore(note)
+            notesToDelete.forEach((note) => {
+                location.pathname === '/home' && deleteNoteInStore(note)
+                location.pathname === '/archived' && deleteArchivedNoteInStore(note)
+            })
             setSelectedNoteOpen(false)
             setSelectedNote(null)
         } catch (error) {
@@ -63,11 +70,11 @@ const useDeleteNote = () => {
         }
     }
 
-    return { loading, deleteNote }
+    return { loading, batchDeleteNotes }
 }
 
-const handleInputErrors = (noteId: string) => {
-    if (isEmpty(noteId)) {
+const handleInputErrors = (...noteIds: string[]) => {
+    if (isEmpty(...noteIds)) {
         toast.error('Something went wrong! Try reloading')
         return false
     }
@@ -75,4 +82,4 @@ const handleInputErrors = (noteId: string) => {
     return true
 }
 
-export default useDeleteNote
+export default useBatchDeleteNote

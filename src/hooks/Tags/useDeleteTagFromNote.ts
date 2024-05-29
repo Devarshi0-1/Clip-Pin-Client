@@ -1,4 +1,4 @@
-import { TBasicResponse } from '@/types'
+import { TBasicResponse, TNote } from '@/types'
 import { isEmpty } from '@/utils/userValidation'
 import useStore from '@/zustand/store'
 import axios, { AxiosError } from 'axios'
@@ -14,22 +14,22 @@ const useDeleteTagFromNote = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const location = useLocation()
 
-    const removeTagFromNote = async (noteId: string, tagId: string) => {
-        const validationErrors: boolean = handleInputErrors(noteId, tagId)
+    const removeTagFromNote = async (note: TNote, tagId: string) => {
+        const validationErrors: boolean = handleInputErrors(note._id, tagId)
 
         if (!validationErrors) return
 
         setLoading(true)
         try {
             const { data } = await axios.delete<TBasicResponse<null>>(
-                `${import.meta.env.VITE_BACKEND_URI}/tags/${noteId}/${tagId}`,
+                `${import.meta.env.VITE_BACKEND_URI}/tags/${note._id}/${tagId}`,
                 { withCredentials: true },
             )
 
             toast.success(data.message)
 
-            location.pathname === '/home' && removeTagFromNoteInStore(noteId, tagId)
-            location.pathname === '/archived' && removeTagFromArchivedNoteInStore(noteId, tagId)
+            location.pathname === '/home' && removeTagFromNoteInStore(note, tagId)
+            location.pathname === '/archived' && removeTagFromArchivedNoteInStore(note, tagId)
         } catch (error: any) {
             const err = error as AxiosError<TBasicResponse<null>>
 

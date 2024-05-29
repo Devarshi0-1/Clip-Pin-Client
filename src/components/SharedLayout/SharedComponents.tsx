@@ -1,20 +1,15 @@
 import useFetchNotes from '@/hooks/Notes/useFetchNotes'
 import useFetchTags from '@/hooks/Tags/useFetchTags'
-import useStore from '@/zustand/store'
 import { useEffect } from 'react'
-import SelectedNote from './Home/SelectedNote'
-import { Sidebar } from './Home/Sidebar'
-import TagsDialog from './Home/TagsDialog'
+import LogoutButton from './LogoutButton'
+import MainContent from './MainContent'
 import NavBar from './NavBar'
+import { Sidebar } from './Sidebar'
+import TagsDialog from './TagsDialog'
 
-type SharedComponentsProps = {
-    children: JSX.Element
-}
-
-const SharedComponents = ({ children }: SharedComponentsProps) => {
+const SharedComponents = () => {
     const { getUserNotes } = useFetchNotes()
     const { getUserTags } = useFetchTags()
-    const { tagOpen, selectedNoteOpen } = useStore()
 
     useEffect(() => {
         getUserNotes()
@@ -25,9 +20,9 @@ const SharedComponents = ({ children }: SharedComponentsProps) => {
         <>
             <NavBar />
             <Sidebar />
-            {children}
-            {selectedNoteOpen && <SelectedNote />}
-            {tagOpen && <TagsDialog />}
+            <MainContent />
+            <LogoutButton />
+            <TagsDialog />
         </>
     )
 }

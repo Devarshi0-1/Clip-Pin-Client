@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import useAddTagToNote from '@/hooks/Tags/useAddTagToNote'
+import { TNote } from '@/types'
 import useStore from '@/zustand/store'
 import { Tag } from 'lucide-react'
 import { IoMdAdd } from 'react-icons/io'
@@ -12,29 +12,21 @@ const AddTagPopover = () => {
 
     const { addTagToNote } = useAddTagToNote()
 
-    const handleTagAdd = async (noteId: string, tagId: string) => {
-        await addTagToNote(noteId, tagId)
+    const handleTagAdd = async (note: TNote, tagId: string) => {
+        await addTagToNote(note, tagId)
     }
 
     const exclusiveTags = userAllTags.filter(
         (userTag) => !selectedNote?.tags.find((tag) => tag._id === userTag._id),
     )
 
+    if (!selectedNote) return
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button variant='outline'>
-                                <Tag className='h-4 w-4' />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>Add Tags</p>
-                        </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
+                <Button variant='outline'>
+                    <Tag className='h-4 w-4' />
+                </Button>
             </PopoverTrigger>
             <PopoverContent className='w-fit max-w-80'>
                 <div>
@@ -50,7 +42,7 @@ const AddTagPopover = () => {
                                 <Button
                                     size='icon'
                                     variant='ghost'
-                                    onClick={() => handleTagAdd(selectedNote?._id!, tag._id)}>
+                                    onClick={() => handleTagAdd(selectedNote, tag._id)}>
                                     <IoMdAdd />
                                 </Button>
                             </Badge>

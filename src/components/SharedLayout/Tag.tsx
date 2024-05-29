@@ -24,7 +24,7 @@ const Tag = ({ tag }: Props) => {
     }
 
     return (
-        <div className='flex items-center justify-between rounded-sm border bg-card px-3 py-1 text-card-foreground shadow-none'>
+        <div className='flex items-center justify-between rounded-sm bg-card px-3 py-1 text-card-foreground shadow-none'>
             <Input
                 value={tagName}
                 onChange={(e) => setTagName(e.target.value)}
@@ -39,7 +39,7 @@ const Tag = ({ tag }: Props) => {
                     <MdDeleteOutline />
                 </Button>
                 {tag.name !== tagName && (
-                    <Button onClick={() => handleTagEdit(tag._id, tagName)}>Edit</Button>
+                    <Button onClick={() => handleTagEdit(tag._id, tagName)}>Save</Button>
                 )}
             </div>
         </div>

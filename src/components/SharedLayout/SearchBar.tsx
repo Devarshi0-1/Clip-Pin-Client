@@ -2,7 +2,7 @@ import useStore from '@/zustand/store'
 import { Search } from 'lucide-react'
 import { useEffect } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
-import { Input } from './ui/input'
+import { Input } from '../ui/input'
 
 export default function SearchBar() {
     const { archivedNotes, notes, setFilteredNotes } = useStore()

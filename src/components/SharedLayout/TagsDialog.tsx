@@ -30,7 +30,7 @@ const TagsDialog = () => {
             <DialogContent className='flex-8 flex h-fit max-h-[80%] min-w-[40%] flex-col p-0'>
                 <Card className='h-full overflow-y-auto border-none'>
                     <CardHeader>
-                        <CardTitle className='text-3xl'>Tags</CardTitle>
+                        <CardTitle className='text-3xl'>Manage Tags</CardTitle>
                     </CardHeader>
                     <CardContent className='space-y-2'>
                         <div className='space-y-2 text-xl'>
