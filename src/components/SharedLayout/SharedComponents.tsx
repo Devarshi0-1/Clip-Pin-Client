@@ -1,7 +1,6 @@
 import useFetchNotes from '@/hooks/Notes/useFetchNotes'
 import useFetchTags from '@/hooks/Tags/useFetchTags'
 import { useEffect } from 'react'
-import LogoutButton from './LogoutButton'
 import MainContent from './MainContent'
 import NavBar from './NavBar'
 import { Sidebar } from './Sidebar'
@@ -21,7 +20,6 @@ const SharedComponents = () => {
             <NavBar />
             <Sidebar />
             <MainContent />
-            <LogoutButton />
             <TagsDialog />
         </>
     )

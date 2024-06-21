@@ -23,7 +23,7 @@ const useLogout = () => {
             toast.success(data.message)
             localStorage.removeItem('user')
             if (setAuthUser) setAuthUser(null)
-        } catch (error: any) {
+        } catch (error: unknown) {
             const err = error as AxiosError<TBasicResponse<null>>
 
             if (err?.response?.data?.error?.message) {

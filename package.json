@@ -27,7 +27,9 @@
     "@tiptap/extension-color": "^2.3.1",
     "@tiptap/extension-paragraph": "^2.3.2",
     "@tiptap/extension-placeholder": "^2.3.2",
+    "@tiptap/extension-text-align": "^2.4.0",
     "@tiptap/extension-text-style": "^2.3.1",
+    "@tiptap/extension-underline": "^2.4.0",
     "@tiptap/pm": "^2.3.1",
     "@tiptap/react": "^2.3.1",
     "@tiptap/starter-kit": "^2.3.1",
@@ -56,7 +58,7 @@
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.12",
+    "prettier-plugin-tailwindcss": "^v0.6.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.4.3",
     "vite": "^5.2.3"

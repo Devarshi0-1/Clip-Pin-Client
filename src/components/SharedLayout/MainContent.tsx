@@ -5,7 +5,7 @@ import { TNote } from '@/types'
 import useStore from '@/zustand/store'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { ChevronsLeft } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Button } from '../ui/button'
 import Note from './Note'
@@ -32,17 +32,22 @@ const MainContent = () => {
 
     const handleBatchDelete = async () => {
         await batchDeleteNotes(highlightNotes)
+        setHighlightNotes([])
     }
+
+    useEffect(() => {
+        setHighlightNotes([])
+    }, [pathname])
 
     return (
         <main onClick={() => setSidebarOpen(false)} className='relative mx-auto flex w-[95%] gap-3'>
-            <div className='flex flex-[8] flex-col gap-4 overflow-hidden'>
+            <div className='flex flex-[8] flex-col gap-4'>
                 <TabList />
                 <TipTap />
             </div>
             <div
                 onClick={() => setRightBarOpen(!rightBarOpen)}
-                className='fixed -right-5 top-1/2 aspect-square cursor-pointer rounded-full bg-secondary p-2 transition-[right] hover:right-0'>
+                className='fixed -right-5 top-1/2 aspect-square translate-y-[-50%] cursor-pointer rounded-full bg-secondary p-2 transition-[right] hover:right-0'>
                 <ChevronsLeft
                     className={`${rightBarOpen ? 'rotate-180' : ''} transition-transform`}
                 />
@@ -81,7 +86,7 @@ const MainContent = () => {
                             <Button
                                 onClick={handleBatchDelete}
                                 variant='destructive'
-                                className='w-full'>
+                                className='w-full rounded-none'>
                                 Delete All
                             </Button>
                         </div>

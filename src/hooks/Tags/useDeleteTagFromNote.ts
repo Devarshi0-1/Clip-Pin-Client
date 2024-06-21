@@ -30,7 +30,7 @@ const useDeleteTagFromNote = () => {
 
             location.pathname === '/home' && removeTagFromNoteInStore(note, tagId)
             location.pathname === '/archived' && removeTagFromArchivedNoteInStore(note, tagId)
-        } catch (error: any) {
+        } catch (error: unknown) {
             const err = error as AxiosError<TBasicResponse<null>>
 
             if (err?.response?.data?.error?.message) {

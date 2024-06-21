@@ -9,17 +9,10 @@ export default function SearchBar() {
     const [searchParams, setSearchParams] = useSearchParams({ search: '' })
     const location = useLocation()
 
-    let timerId: NodeJS.Timeout
     useEffect(() => {
-        clearTimeout(timerId)
-        timerId = setTimeout(() => {
-            location.pathname === '/home' &&
-                setFilteredNotes(notes, searchParams.get('search') || '')
-            location.pathname === '/archived' &&
-                setFilteredNotes(archivedNotes, searchParams.get('search') || '')
-        }, 700)
-
-        return () => clearTimeout(timerId)
+        location.pathname === '/home' && setFilteredNotes(notes, searchParams.get('search') || '')
+        location.pathname === '/archived' &&
+            setFilteredNotes(archivedNotes, searchParams.get('search') || '')
     }, [searchParams.get('search'), location])
 
     return (

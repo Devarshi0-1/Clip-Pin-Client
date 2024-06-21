@@ -27,7 +27,6 @@ const useLogin = () => {
             if (setAuthUser) setAuthUser(data.data)
         } catch (error) {
             const err = error as AxiosError<TBasicResponse<null>>
-
             if (err?.response?.data?.error?.message) {
                 toast.error(err.response.data.error.message)
                 return

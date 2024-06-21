@@ -10,7 +10,7 @@ const TabList = () => {
     return (
         <div
             ref={parent}
-            className='tablist flex max-w-full h-fit w-fit items-center overflow-auto rounded-md bg-secondary'>
+            className='tablist flex h-fit w-fit max-w-full items-center overflow-auto rounded-md bg-secondary'>
             {tabList.map((tab, index) => (
                 <div
                     key={tab._id}
@@ -20,7 +20,7 @@ const TabList = () => {
                         onClick={() => {
                             setSelectedNote(tab)
                         }}>
-                        <p className='mr-auto block max-w-32 overflow-hidden text-ellipsis'>
+                        <p className='mr-auto block max-w-32 overflow-hidden text-ellipsis whitespace-nowrap'>
                             {tab.title}
                         </p>
                         <Button

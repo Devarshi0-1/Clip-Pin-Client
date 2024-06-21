@@ -13,7 +13,9 @@ interface Props {
 const Tag = ({ tag }: Props) => {
     const { deleteTag } = useDeleteTag()
     const { editTag } = useEditTag()
+
     const [tagName, setTagName] = useState<string>(tag.name)
+    const [editState, setEditState] = useState<boolean>(true)
 
     const handleTagDelete = async (tagId: string) => {
         await deleteTag(tagId)
@@ -24,12 +26,13 @@ const Tag = ({ tag }: Props) => {
     }
 
     return (
-        <div className='flex items-center justify-between rounded-sm bg-card px-3 py-1 text-card-foreground shadow-none'>
+        <div className='flex items-center justify-between rounded-sm bg-card py-1 text-card-foreground shadow-none'>
             <Input
                 value={tagName}
                 onChange={(e) => setTagName(e.target.value)}
                 className='border-none focus-visible:ring-0'
                 type='text'
+                readOnly={editState}
             />
             <div className='flex items-center gap-3'>
                 <Button
@@ -38,8 +41,16 @@ const Tag = ({ tag }: Props) => {
                     onClick={() => handleTagDelete(tag._id)}>
                     <MdDeleteOutline />
                 </Button>
-                {tag.name !== tagName && (
-                    <Button onClick={() => handleTagEdit(tag._id, tagName)}>Save</Button>
+                {!editState ? (
+                    <Button
+                        onClick={() => {
+                            handleTagEdit(tag._id, tagName)
+                            setEditState(!editState)
+                        }}>
+                        Save
+                    </Button>
+                ) : (
+                    <Button onClick={() => setEditState(!editState)}>Edit</Button>
                 )}
             </div>
         </div>

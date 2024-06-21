@@ -31,7 +31,7 @@ const useCreateTag = () => {
 
             toast.success(data.message)
             newTag(data.data)
-        } catch (error: any) {
+        } catch (error: unknown) {
             const err = error as AxiosError<TBasicResponse<null>>
 
             if (err?.response?.data?.error?.message) {

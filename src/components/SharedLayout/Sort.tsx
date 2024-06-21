@@ -16,11 +16,11 @@ interface SortingOption {
 const sortingTypes: SortingOption[] = [
     {
         value: 'latest',
-        label: 'Default',
+        label: 'Latest',
     },
     {
         value: 'oldest',
-        label: 'Ascending',
+        label: 'Oldest',
     },
     {
         value: 'updated',

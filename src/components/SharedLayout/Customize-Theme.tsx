@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import { TFlavour, TMode, TRadius, TTheme, TThemeData } from '@/types'
 import { ResetIcon } from '@radix-ui/react-icons'
 import { CheckIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { TFlavour, TMode, TTheme, useTheme } from '../theme-provider'
-
-type TThemeData = { displayName: string; mode: TFlavour; color: string }
+import { useTheme } from '../theme-provider'
 
 const themes: TThemeData[] = [
     { displayName: 'Zinc', mode: 'default', color: 'hsl(240, 5%, 34%)' },
@@ -16,8 +15,6 @@ const themes: TThemeData[] = [
     { displayName: 'Violet', mode: 'violet', color: 'hsl(263, 70%, 50%)' },
     { displayName: 'Blue', mode: 'blue', color: 'hsl(217, 91%, 60%)' },
 ] as const
-
-type TRadius = '0' | '0.3' | '0.5' | '0.75' | '1.0'
 
 const radiusArr: TRadius[] = ['0', '0.3', '0.5', '0.75', '1.0']
 
@@ -97,26 +94,22 @@ const CustomizeTheme = () => {
             <div className='space-y-1.5'>
                 <Label className='text-xs'>Mode</Label>
                 <div className='grid grid-cols-3 gap-2'>
-                    {
-                        <>
-                            <Button
-                                variant={theme === 'light' ? 'default' : 'outline'}
-                                size='sm'
-                                onClick={() => setTheme('light')}
-                                className='rounded-[0.5rem]'>
-                                <SunIcon className='mr-1 -translate-x-1' />
-                                Light
-                            </Button>
-                            <Button
-                                variant={theme === 'dark' ? 'default' : 'outline'}
-                                size='sm'
-                                onClick={() => setTheme('dark')}
-                                className='rounded-[0.5rem]'>
-                                <MoonIcon className='mr-1 -translate-x-1' />
-                                Dark
-                            </Button>
-                        </>
-                    }
+                    <Button
+                        variant={theme === 'light' ? 'default' : 'outline'}
+                        size='sm'
+                        onClick={() => setTheme('light')}
+                        className='rounded-[0.5rem]'>
+                        <SunIcon className='mr-1 -translate-x-1' />
+                        Light
+                    </Button>
+                    <Button
+                        variant={theme === 'dark' ? 'default' : 'outline'}
+                        size='sm'
+                        onClick={() => setTheme('dark')}
+                        className='rounded-[0.5rem]'>
+                        <MoonIcon className='mr-1 -translate-x-1' />
+                        Dark
+                    </Button>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 .tiptap {
-    @apply max-h-[380px] overflow-auto rounded-md h-[400px] border p-3;
+    @apply min-h-[300px] max-h-[360px] overflow-auto rounded-md border-none p-3 outline-none;
 }
 
 .tiptap > * + * {
@@ -42,7 +42,7 @@
     @apply pl-4;
 }
 
-.tiptap hr{
+.tiptap hr {
     border: none;
     border-top: 2px solid;
     margin: 2rem 0;

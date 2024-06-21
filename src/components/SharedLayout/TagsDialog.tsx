@@ -4,21 +4,16 @@ import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import useCreateTag from '@/hooks/Tags/useCreateTag'
 import useStore from '@/zustand/store'
-import { useEffect, useRef, useState } from 'react'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useState } from 'react'
 import Tag from './Tag'
 
 const TagsDialog = () => {
     const { tagOpen, setTagOpen, tags } = useStore()
     const { addTag } = useCreateTag()
+    const [parent] = useAutoAnimate()
 
     const [name, setName] = useState<string>('')
-    const createTagRef = useRef<HTMLInputElement>(null)
-
-    useEffect(() => {
-        createTagRef.current?.focus()
-
-        return () => createTagRef.current?.blur()
-    }, [])
 
     const handleCreateTag = async () => {
         if (name) await addTag(name)
@@ -30,27 +25,32 @@ const TagsDialog = () => {
             <DialogContent className='flex-8 flex h-fit max-h-[80%] min-w-[40%] flex-col p-0'>
                 <Card className='h-full overflow-y-auto border-none'>
                     <CardHeader>
-                        <CardTitle className='text-3xl'>Manage Tags</CardTitle>
+                        <CardTitle className='text-2xl'>Manage Tags</CardTitle>
                     </CardHeader>
                     <CardContent className='space-y-2'>
-                        <div className='space-y-2 text-xl'>
+                        <div className='flex justify-between gap-3'>
+                            <Input
+                                placeholder='Create Tag'
+                                value={name}
+                                className='focus-visible:ring-0'
+                                onChange={(e) => setName(e.target.value)}
+                                autoFocus
+                            />
+                            <Button onClick={handleCreateTag}>Create Tag</Button>
+                        </div>
+                        <div ref={parent} className='space-y-2 text-xl'>
                             {tags.map((tag) => (
                                 <Tag key={tag._id} tag={tag} />
                             ))}
                         </div>
-                        <Input
-                            placeholder='Create Tag'
-                            value={name}
-                            ref={createTagRef}
-                            className='focus-visible:ring-0'
-                            onChange={(e) => setName(e.target.value)}
-                        />
                     </CardContent>
-                    <CardFooter className='flex justify-between'>
-                        <Button variant='outline' onClick={() => setTagOpen(false)}>
+                    <CardFooter>
+                        <Button
+                            variant='outline'
+                            className='w-full'
+                            onClick={() => setTagOpen(false)}>
                             Cancel
                         </Button>
-                        <Button onClick={handleCreateTag}>Create</Button>
                     </CardFooter>
                 </Card>
             </DialogContent>

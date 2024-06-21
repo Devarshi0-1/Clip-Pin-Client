@@ -34,7 +34,7 @@ const useAddTagToNote = () => {
 
             location.pathname === '/home' && addTagToNoteInStore(note, data.data)
             location.pathname === '/archived' && addTagToArchivedNoteInStore(note, data.data)
-        } catch (error: any) {
+        } catch (error: unknown) {
             const err = error as AxiosError<TBasicResponse<null>>
 
             if (err?.response?.data?.error?.message) {

@@ -14,27 +14,32 @@ interface store {
     selectedNote: TNote | null
     setSelectedNote: (selectedNote: TNote | null) => void
 
+    // Normal Notes
     notes: Array<TNote> | []
     setNotes: (newNotes: Array<TNote> | []) => void
     newNote: (newNote: TNote) => void
     deleteNote: (newNote: TNote) => void
     editNote: (newNote: TNote) => void
 
+    // Archived Notes
     archivedNotes: Array<TNote> | []
     setArchivedNotes: (newNotes: Array<TNote> | []) => void
     newArchivedNote: (newNote: TNote) => void
     deleteArchivedNote: (newNote: TNote) => void
     editArchivedNote: (newNote: TNote) => void
 
+    // Bookmarked Notes
     bookmarkedNotes: Array<TNote> | []
     deleteBookmarkedNote: (newNote: TNote) => void
     newBookmarkNote: (note: TNote) => void
     editBookmarkedNote: (newNote: TNote) => void
     setBookmarkedNotes: (newNotes: Array<TNote> | []) => void
 
+    // Filtered Notes
     filteredNotes: Array<TNote> | []
     setFilteredNotes: (data: Array<TNote>, searchParam: string) => void
 
+    // Tags
     tags: Array<TTag> | []
     setTags: (newTags: Array<TTag> | []) => void
     newTag: (newTag: TTag) => void
@@ -47,6 +52,7 @@ interface store {
     removeTagFromArchivedNote: (newNote: TNote, tagId: string) => void
     addTagToBookmarkedNote: (newNote: TNote, tag: TTag) => void
 
+    // Tab System
     tabList: Array<TNote>
     addTab: (newNote: TNote) => void
     removeTab: (newNote: TNote) => void
@@ -68,6 +74,20 @@ const useStore = create<store>((set) => ({
     selectedNote: null,
     setSelectedNote: (newSelectedNote) => set({ selectedNote: newSelectedNote }),
 
+    // Normal Notes
+    notes: [],
+    setNotes: (newNotes) => set({ notes: newNotes }),
+    newNote: (newNote) => set((state) => ({ notes: [newNote, ...state.notes] })),
+    editNote: (newNote) =>
+        set((state) => ({
+            notes: state.notes.map((note) => (note._id === newNote._id ? newNote : note)),
+        })),
+    deleteNote: (newNote) =>
+        set((state) => ({
+            notes: state.notes.filter((note) => note._id !== newNote._id),
+        })),
+
+    // Bookmarked Notes
     bookmarkedNotes: [],
     setBookmarkedNotes: (newNotes) => set({ bookmarkedNotes: newNotes }),
     newBookmarkNote: (newNote) =>
@@ -85,18 +105,8 @@ const useStore = create<store>((set) => ({
                 note._id === newNote._id ? newNote : note,
             ),
         })),
-    notes: [],
-    setNotes: (newNotes) => set({ notes: newNotes }),
-    newNote: (newNote) => set((state) => ({ notes: [newNote, ...state.notes] })),
-    editNote: (newNote) =>
-        set((state) => ({
-            notes: state.notes.map((note) => (note._id === newNote._id ? newNote : note)),
-        })),
-    deleteNote: (newNote) =>
-        set((state) => ({
-            notes: state.notes.filter((note) => note._id !== newNote._id),
-        })),
 
+    // Archived Notes
     archivedNotes: [],
     setArchivedNotes: (newNotes) => set({ archivedNotes: newNotes }),
     newArchivedNote: (newNote) =>
@@ -112,6 +122,7 @@ const useStore = create<store>((set) => ({
             ),
         })),
 
+    // Filtered Notes
     filteredNotes: [],
     setFilteredNotes: (data, searchParam) =>
         set(() => ({
@@ -127,6 +138,7 @@ const useStore = create<store>((set) => ({
             }),
         })),
 
+    // Tags
     tags: [],
     setTags: (newTags) => set(() => ({ tags: newTags })),
     newTag: (newTag) => set((state) => ({ tags: [newTag, ...state.tags] })),
@@ -195,10 +207,13 @@ const useStore = create<store>((set) => ({
             }),
         })),
 
+    // Tab System
     tabList: [],
     addTab: (newNote) =>
         set((state) => ({
-            tabList: state.tabList.includes(newNote) ? state.tabList : [newNote, ...state.tabList],
+            tabList: state.tabList.find((tab) => tab._id === newNote._id)
+                ? state.tabList
+                : [newNote, ...state.tabList],
         })),
     removeTab: (newNote) =>
         set((state) => ({

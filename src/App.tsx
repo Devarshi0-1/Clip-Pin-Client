@@ -20,10 +20,6 @@ const App: FC = () => {
                     path='/archived'
                     element={authUser ? <SharedComponents /> : <Navigate to='/' />}
                 />
-                <Route
-                    path='/note/:noteId'
-                    element={authUser ? <SharedComponents /> : <Navigate to='/' />}
-                />
             </Routes>
             <Toaster />
         </div>

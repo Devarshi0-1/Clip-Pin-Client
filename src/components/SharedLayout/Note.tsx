@@ -4,7 +4,7 @@ import useBookmarkNote from '@/hooks/Notes/useBookmarkNote'
 import useNoteDelete from '@/hooks/Notes/useDeleteNote'
 import { TNote } from '@/types'
 import useStore from '@/zustand/store'
-import { Bookmark, Package, Trash } from 'lucide-react'
+import { Bookmark, Package, PackageOpen, Trash } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '../ui/button'
 
@@ -58,12 +58,12 @@ const Note = ({ note, handleNoteHighlightNote }: TNoteProps) => {
                     <div
                         className={`${selectedNote?._id === note._id ? 'bg-primary' : 'bg-secondary'} h-2 w-2 rounded-full transition-[background-color] group-hover:bg-primary/40`}></div>
                 )}
-                <div className='w-full max-w-[calc(100%-10rem)] overflow-hidden text-ellipsis'>
+                <div className='w-full max-w-[calc(100%-2rem)] overflow-hidden text-ellipsis whitespace-nowrap'>
                     {note.title}
                 </div>
             </div>
             {!highlightMode && (
-                <div className='absolute right-0 flex translate-x-[50%] opacity-0 group-hover:opacity-100 items-center gap-1 transition-[opacity,transform] ease-in-out group-hover:translate-x-0'>
+                <div className='absolute right-0 flex translate-x-[50%] items-center gap-1 opacity-0 transition-[opacity,transform] ease-in-out group-hover:translate-x-0 group-hover:opacity-100'>
                     <Button
                         onClick={(e) => {
                             e.stopPropagation()
@@ -83,7 +83,11 @@ const Note = ({ note, handleNoteHighlightNote }: TNoteProps) => {
                             variant='outline'
                             size='sm'
                             className='m-0 aspect-square rounded-full p-0 opacity-40 transition-opacity hover:opacity-100'>
-                            <Package className='h-5 w-5' />
+                            {note.isArchived ? (
+                                <PackageOpen className='h-5 w-5' />
+                            ) : (
+                                <Package className='h-5 w-5' />
+                            )}
                         </Button>
                     )}
                     <Button

@@ -34,7 +34,7 @@ const useFetchNotes = () => {
             setArchivedNotes(tempArchivedNotes)
 
             if (data.data.length) toast.success(data.message)
-        } catch (error: any) {
+        } catch (error: unknown) {
             const err = error as AxiosError<TBasicResponse<null>>
             if (err?.response?.data?.error?.message) {
                 toast.error(err.response.data.error.message)

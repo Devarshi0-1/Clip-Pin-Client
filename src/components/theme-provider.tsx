@@ -1,10 +1,5 @@
+import { TTheme } from '@/types'
 import { createContext, useContext, useEffect, useState } from 'react'
-
-export type TMode = 'light' | 'dark'
-
-export type TFlavour = 'default' | 'rose' | 'red' | 'green' | 'yellow' | 'violet' | 'blue'
-
-export type TTheme = `${TMode}-${TFlavour}` | 'system'
 
 type ThemeProviderProps = {
     children: React.ReactNode
