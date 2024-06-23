@@ -33,6 +33,7 @@ const TabList = () => {
                                 if (tab._id !== selectedNote?._id) return
                                 if (tabList[index - 1]) setSelectedNote(tabList[index - 1])
                                 else if (tabList[index + 1]) setSelectedNote(tabList[index + 1])
+                                else setSelectedNote(null)
                             }}>
                             <X className='h-4 w-4' />
                         </Button>

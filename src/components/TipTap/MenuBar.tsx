@@ -157,7 +157,7 @@ const MenuBar = () => {
                     </Button>
 
                     <Popover>
-                        <PopoverTrigger>
+                        <PopoverTrigger asChild>
                             <Button
                                 variant={`${editor.isActive('heading') ? 'secondary' : 'ghost'}`}
                                 role='combobox'
@@ -205,7 +205,7 @@ const MenuBar = () => {
                     </Popover>
 
                     <Popover>
-                        <PopoverTrigger>
+                        <PopoverTrigger asChild>
                             <Button
                                 variant={`${
                                     alignments.find((alignment) =>
