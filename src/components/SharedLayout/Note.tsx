@@ -5,21 +5,19 @@ import useNoteDelete from '@/hooks/Notes/useDeleteNote'
 import { TNote } from '@/types'
 import useStore from '@/zustand/store'
 import { Bookmark, Package, PackageOpen, Trash } from 'lucide-react'
-import { useState } from 'react'
 import { Button } from '../ui/button'
 
 type TNoteProps = {
     note: TNote
+    highlightNotes: TNote[]
     handleNoteHighlightNote: (newNote: TNote) => void
 }
 
-const Note = ({ note, handleNoteHighlightNote }: TNoteProps) => {
+const Note = ({ note, highlightNotes, handleNoteHighlightNote }: TNoteProps) => {
     const { deleteNote } = useNoteDelete()
     const { archiveNote } = useArchivedNote()
     const { bookmarkNote } = useBookmarkNote()
     const { setSelectedNote, addTab, selectedNote, highlightMode } = useStore()
-
-    const [noteChecked, setNoteChecked] = useState<boolean>(false)
 
     const handleNoteDelete = async (note: TNote) => {
         await deleteNote(note)
@@ -49,10 +47,9 @@ const Note = ({ note, handleNoteHighlightNote }: TNoteProps) => {
                         className='transition-transform ease-in-out hover:scale-150'
                         onClick={(e) => {
                             e.stopPropagation()
-                            setNoteChecked(!noteChecked)
                             handleNoteHighlightNote(note)
                         }}
-                        checked={noteChecked}
+                        checked={highlightNotes.some((highNote) => highNote._id === note._id)}
                     />
                 ) : (
                     <div

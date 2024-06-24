@@ -59,6 +59,7 @@ const RightBar = ({ rightBarOpen }: { rightBarOpen: boolean }) => {
                     <Note
                         key={note._id}
                         note={note}
+                        highlightNotes={highlightNotes}
                         handleNoteHighlightNote={handleNoteHighlightNote}
                     />
                 ))}
@@ -82,6 +83,7 @@ const RightBar = ({ rightBarOpen }: { rightBarOpen: boolean }) => {
                         <Note
                             key={note._id}
                             note={note}
+                            highlightNotes={highlightNotes}
                             handleNoteHighlightNote={handleNoteHighlightNote}
                         />
                     ))}
