@@ -1,10 +1,9 @@
 import useStore from '@/zustand/store'
 import { Menu } from 'lucide-react'
 import { Button } from '../ui/button'
-import SearchBar from './SearchBar'
+import Settings from './Settings'
 import Sort from './Sort'
 import MyLogo from '/my_Logo.svg'
-import Settings from './Settings'
 
 export default function NavBar() {
     const { sidebarOpen, setSidebarOpen } = useStore()
@@ -22,7 +21,6 @@ export default function NavBar() {
                 </div>
             </div>
             <div className='flex items-center gap-5'>
-                <SearchBar />
                 <Sort />
                 <Settings />
             </div>

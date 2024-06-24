@@ -1,22 +1,21 @@
+import { TNote } from '@/types'
 import useStore from '@/zustand/store'
 import { Search } from 'lucide-react'
 import { useEffect } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
 import { Input } from '../ui/input'
 
-export default function SearchBar() {
-    const { archivedNotes, notes, setFilteredNotes } = useStore()
+export default function SearchBar({ notesToFilter }: { notesToFilter: TNote[] }) {
+    const { setFilteredNotes } = useStore()
     const [searchParams, setSearchParams] = useSearchParams({ search: '' })
     const location = useLocation()
 
     useEffect(() => {
-        location.pathname === '/home' && setFilteredNotes(notes, searchParams.get('search') || '')
-        location.pathname === '/archived' &&
-            setFilteredNotes(archivedNotes, searchParams.get('search') || '')
+        setFilteredNotes(notesToFilter, searchParams.get('search') || '')
     }, [searchParams.get('search'), location])
 
     return (
-        <div className='relative'>
+        <div className='relative m-1'>
             <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
             <Input
                 type='search'

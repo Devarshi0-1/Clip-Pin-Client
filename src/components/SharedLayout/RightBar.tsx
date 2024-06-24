@@ -4,9 +4,10 @@ import { TNote } from '@/types'
 import useStore from '@/zustand/store'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { Button } from '../ui/button'
 import Note from './Note'
+import SearchBar from './SearchBar'
 
 const RightBar = ({ rightBarOpen }: { rightBarOpen: boolean }) => {
     const { notes, bookmarkedNotes, filteredNotes, archivedNotes, highlightMode } = useStore()
@@ -14,6 +15,7 @@ const RightBar = ({ rightBarOpen }: { rightBarOpen: boolean }) => {
     const [parent2] = useAutoAnimate()
     const { pathname } = useLocation()
     const { batchDeleteNotes } = useBatchDeleteNote()
+    const [searchParams, _] = useSearchParams()
 
     const [highlightNotes, setHighlightNotes] = useState<TNote[]>([])
 
@@ -50,7 +52,8 @@ const RightBar = ({ rightBarOpen }: { rightBarOpen: boolean }) => {
                 value='notes'
                 className='rightSidebar max-h-[500px] overflow-y-auto overflow-x-hidden'
                 ref={parent}>
-                {(!filteredNotes.length
+                <SearchBar notesToFilter={pathname === '/home' ? notes : archivedNotes} />
+                {(!searchParams.get('search')?.length
                     ? pathname === '/home'
                         ? notes
                         : archivedNotes
@@ -79,14 +82,17 @@ const RightBar = ({ rightBarOpen }: { rightBarOpen: boolean }) => {
                     value='bookmarked'
                     className='rightSidebar max-h-[500px] overflow-y-auto overflow-x-hidden'
                     ref={parent2}>
-                    {bookmarkedNotes.map((note) => (
-                        <Note
-                            key={note._id}
-                            note={note}
-                            highlightNotes={highlightNotes}
-                            handleNoteHighlightNote={handleNoteHighlightNote}
-                        />
-                    ))}
+                    <SearchBar notesToFilter={bookmarkedNotes} />
+                    {(searchParams.get('search')?.length ? filteredNotes : bookmarkedNotes).map(
+                        (note) => (
+                            <Note
+                                key={note._id}
+                                note={note}
+                                highlightNotes={highlightNotes}
+                                handleNoteHighlightNote={handleNoteHighlightNote}
+                            />
+                        ),
+                    )}
                 </TabsContent>
             )}
         </Tabs>

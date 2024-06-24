@@ -126,7 +126,7 @@ const useStore = create<store>((set) => ({
     filteredNotes: [],
     setFilteredNotes: (data, searchParam) =>
         set(() => ({
-            filteredNotes: data?.filter((note) => {
+            filteredNotes: data.filter((note) => {
                 if (!searchParam) return
                 const filterTermLowerCase = searchParam.toLowerCase()
 
