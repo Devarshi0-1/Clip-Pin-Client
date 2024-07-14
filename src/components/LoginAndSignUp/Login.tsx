@@ -53,7 +53,15 @@ const Login: FC = () => {
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button className='w-full'>Login</Button>
+                    <Button
+                        type='button'
+                        variant='secondary'
+                        onClick={async () => {
+                            await login('demousername', 'demopassword')
+                        }}>
+                        Demo Login
+                    </Button>
+                    <Button className='ml-auto'>Login</Button>
                 </CardFooter>
             </form>
         </Card>
