@@ -14,9 +14,9 @@ const RightBar = ({ rightBarOpen }: { rightBarOpen: boolean }) => {
     const [parent] = useAutoAnimate()
     const [parent2] = useAutoAnimate()
     const { pathname } = useLocation()
-    const { batchDeleteNotes } = useBatchDeleteNote()
     const [searchParams, _] = useSearchParams()
 
+    const { loading, batchDeleteNotes } = useBatchDeleteNote()
     const [highlightNotes, setHighlightNotes] = useState<TNote[]>([])
 
     const handleNoteHighlightNote = (newNote: TNote) => {
@@ -71,6 +71,7 @@ const RightBar = ({ rightBarOpen }: { rightBarOpen: boolean }) => {
                         <Button
                             onClick={handleBatchDelete}
                             variant='destructive'
+                            loading={loading}
                             className='w-full rounded-none'>
                             Delete All
                         </Button>

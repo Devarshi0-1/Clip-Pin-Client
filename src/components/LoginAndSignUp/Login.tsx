@@ -17,7 +17,7 @@ const Login: FC = () => {
     const [username, setUsername] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
-    const { login } = useLogin()
+    const { loading, login } = useLogin()
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -55,13 +55,16 @@ const Login: FC = () => {
                 <CardFooter>
                     <Button
                         type='button'
+                        loading={loading}
                         variant='secondary'
                         onClick={async () => {
                             await login('demousername', 'demopassword')
                         }}>
                         Demo Login
                     </Button>
-                    <Button className='ml-auto'>Login</Button>
+                    <Button className='ml-auto' loading={loading}>
+                        Login
+                    </Button>
                 </CardFooter>
             </form>
         </Card>

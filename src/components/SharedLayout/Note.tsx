@@ -14,9 +14,9 @@ type TNoteProps = {
 }
 
 const Note = ({ note, highlightNotes, handleNoteHighlightNote }: TNoteProps) => {
-    const { deleteNote } = useNoteDelete()
-    const { archiveNote } = useArchivedNote()
-    const { bookmarkNote } = useBookmarkNote()
+    const { loading: deleteLoading, deleteNote } = useNoteDelete()
+    const { loading: archiveLoading, archiveNote } = useArchivedNote()
+    const { loading: bookmarkLoading, bookmarkNote } = useBookmarkNote()
     const { setSelectedNote, addTab, selectedNote, highlightMode } = useStore()
 
     const handleNoteDelete = async (note: TNote) => {
@@ -66,6 +66,7 @@ const Note = ({ note, highlightNotes, handleNoteHighlightNote }: TNoteProps) => 
                             e.stopPropagation()
                             handleNoteDelete(note)
                         }}
+                        loading={deleteLoading}
                         variant='destructive'
                         size='sm'
                         className='m-0 aspect-square rounded-full p-0 opacity-40 transition-opacity hover:opacity-100'>
@@ -77,6 +78,7 @@ const Note = ({ note, highlightNotes, handleNoteHighlightNote }: TNoteProps) => 
                                 e.stopPropagation()
                                 handleNoteArchive(note, !note.isArchived)
                             }}
+                            loading={archiveLoading}
                             variant='outline'
                             size='sm'
                             className='m-0 aspect-square rounded-full p-0 opacity-40 transition-opacity hover:opacity-100'>
@@ -89,6 +91,7 @@ const Note = ({ note, highlightNotes, handleNoteHighlightNote }: TNoteProps) => 
                     )}
                     <Button
                         variant='outline'
+                        loading={bookmarkLoading}
                         className='m-0 aspect-square rounded-full p-0 opacity-40 transition-opacity hover:opacity-100'>
                         <Bookmark
                             className={`h-5 w-5 ${note.isBookmarked ? 'fill-foreground' : ''}`}

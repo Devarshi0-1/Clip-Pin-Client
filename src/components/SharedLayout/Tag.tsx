@@ -11,8 +11,8 @@ interface Props {
 }
 
 const Tag = ({ tag }: Props) => {
-    const { deleteTag } = useDeleteTag()
-    const { editTag } = useEditTag()
+    const { loading: deleteLoading, deleteTag } = useDeleteTag()
+    const { loading: editLoading, editTag } = useEditTag()
 
     const [tagName, setTagName] = useState<string>(tag.name)
     const [editState, setEditState] = useState<boolean>(true)
@@ -36,13 +36,15 @@ const Tag = ({ tag }: Props) => {
             />
             <div className='flex items-center gap-3'>
                 <Button
-                    variant='destructive'
                     type='submit'
+                    variant='destructive'
+                    loading={deleteLoading}
                     onClick={() => handleTagDelete(tag._id)}>
                     <MdDeleteOutline />
                 </Button>
                 {!editState ? (
                     <Button
+                        loading={editLoading}
                         onClick={() => {
                             handleTagEdit(tag._id, tagName)
                             setEditState(!editState)

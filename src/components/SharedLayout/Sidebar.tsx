@@ -10,7 +10,7 @@ import MyLogo from '/my_Logo.svg'
 export function Sidebar() {
     const { sidebarOpen, setSidebarOpen, setSelectedNote } = useStore()
     const { pathname } = useLocation()
-    const { logout } = useLogout()
+    const { loading, logout } = useLogout()
 
     useEffect(() => {
         setSelectedNote(null)
@@ -46,13 +46,13 @@ export function Sidebar() {
                     </Button>
                     <nav className='flex w-full justify-between gap-3 text-xl'>
                         <Link
-                            className={`${location.pathname === '/home' ? 'bg-secondary' : ''} w-1/2 grid grid-cols-2 items-center rounded-md px-3 py-2`}
+                            className={`${location.pathname === '/home' ? 'bg-secondary' : ''} grid w-1/2 grid-cols-2 items-center rounded-md px-3 py-2`}
                             to='/home'>
                             <Home className='h-6 w-6' />
                             Home
                         </Link>
                         <Link
-                            className={`${location.pathname === '/archived' ? 'bg-secondary' : ''} w-1/2 grid grid-cols-2 items-center rounded-md px-3 py-2`}
+                            className={`${location.pathname === '/archived' ? 'bg-secondary' : ''} grid w-1/2 grid-cols-2 items-center rounded-md px-3 py-2`}
                             to='/archived'>
                             <Archive className='h-6 w-6' />
                             Archive
@@ -61,7 +61,10 @@ export function Sidebar() {
                 </div>
             </div>
             <div className='px-3 py-3'>
-                <Button onClick={logout} className='flex w-full items-center gap-6 rounded-lg'>
+                <Button
+                    onClick={logout}
+                    loading={loading}
+                    className='flex w-full items-center gap-6 rounded-lg'>
                     <BiLogOut className='h-6 w-6' />
                     Logout
                 </Button>

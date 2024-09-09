@@ -10,7 +10,7 @@ import Tag from './Tag'
 
 const TagsDialog = () => {
     const { tagOpen, setTagOpen, tags } = useStore()
-    const { addTag } = useCreateTag()
+    const { loading, addTag } = useCreateTag()
     const [parent] = useAutoAnimate()
 
     const [name, setName] = useState<string>('')
@@ -36,7 +36,9 @@ const TagsDialog = () => {
                                 onChange={(e) => setName(e.target.value)}
                                 autoFocus
                             />
-                            <Button onClick={handleCreateTag}>Create Tag</Button>
+                            <Button onClick={handleCreateTag} loading={loading}>
+                                Create Tag
+                            </Button>
                         </div>
                         <div ref={parent} className='space-y-2 text-xl'>
                             {tags.map((tag) => (

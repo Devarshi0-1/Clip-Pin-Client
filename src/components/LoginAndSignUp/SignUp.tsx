@@ -18,7 +18,7 @@ const SignUp: FC = () => {
     const [username, setUsername] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
-    const { signUp } = useSignUp()
+    const { loading, signUp } = useSignUp()
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -64,7 +64,9 @@ const SignUp: FC = () => {
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button className='w-full'>Create account</Button>
+                    <Button className='w-full' loading={loading}>
+                        Create account
+                    </Button>
                 </CardFooter>
             </form>
         </Card>

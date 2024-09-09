@@ -10,7 +10,7 @@ import { IoMdAdd } from 'react-icons/io'
 const AddTagPopover = () => {
     const { tags: userAllTags, selectedNote } = useStore()
 
-    const { addTagToNote } = useAddTagToNote()
+    const { loading, addTagToNote } = useAddTagToNote()
 
     const handleTagAdd = async (note: TNote, tagId: string) => {
         await addTagToNote(note, tagId)
@@ -34,7 +34,7 @@ const AddTagPopover = () => {
                         exclusiveTags.map((tag) => (
                             <Badge
                                 key={tag._id}
-                                className='border-none px-2 py-1 '
+                                className='border-none px-2 py-1'
                                 variant='outline'>
                                 <p className='max-w-20 overflow-hidden text-ellipsis whitespace-nowrap'>
                                     {tag.name}
@@ -42,6 +42,7 @@ const AddTagPopover = () => {
                                 <Button
                                     size='icon'
                                     variant='ghost'
+                                    loading={loading}
                                     onClick={() => handleTagAdd(selectedNote, tag._id)}>
                                     <IoMdAdd />
                                 </Button>

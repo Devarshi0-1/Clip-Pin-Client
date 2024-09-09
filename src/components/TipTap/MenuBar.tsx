@@ -40,8 +40,8 @@ import { Popover, PopoverContent } from '../ui/popover'
 const MenuBar = () => {
     const { editor } = useCurrentEditor()
     const { selectedNote } = useStore()
-    const { addNote } = useAddNote()
-    const { editNote } = useNoteEdit()
+    const { loading: addNoteLoading, addNote } = useAddNote()
+    const { loading: editNoteLoading, editNote } = useNoteEdit()
 
     const [title, setTitle] = useState<string>('')
     const [textCopied, setTextCopied] = useState<boolean>(false)
@@ -296,9 +296,13 @@ const MenuBar = () => {
                 </div>
                 <div className='flex items-center gap-4'>
                     {selectedNote ? (
-                        <Button onClick={handleNoteEdit}>Save</Button>
+                        <Button onClick={handleNoteEdit} loading={editNoteLoading}>
+                            Save
+                        </Button>
                     ) : (
-                        <Button onClick={handleAddNoteSubmit}>Create Note</Button>
+                        <Button onClick={handleAddNoteSubmit} loading={addNoteLoading}>
+                            Create Note
+                        </Button>
                     )}
                     {selectedNote && (
                         <>

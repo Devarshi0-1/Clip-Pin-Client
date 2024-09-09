@@ -13,6 +13,7 @@ import { EditorProvider } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect } from 'react'
 import { RxCross2 } from 'react-icons/rx'
+import { Button } from '../ui/button'
 import MenuBar from './MenuBar'
 import './styles.css'
 
@@ -40,7 +41,7 @@ const extensions = [
 
 const TipTap = () => {
     const { selectedNote } = useStore()
-    const { removeTagFromNote } = useDeleteTagFromNote()
+    const { loading, removeTagFromNote } = useDeleteTagFromNote()
     const [parent] = useAutoAnimate()
 
     const handleTagDelete = async (tagId: string) => {
@@ -84,15 +85,21 @@ const TipTap = () => {
             {!!selectedNote?.tags.length && (
                 <div ref={parent} className='mt-4 flex flex-wrap gap-3 px-3 py-2'>
                     {selectedNote?.tags.map((tag) => (
-                        <Badge key={tag._id} variant='default' className='text-md'>
-                            <p className='max-w-28 overflow-hidden text-ellipsis whitespace-nowrap'>
-                                {tag.name}
-                            </p>
-                            <RxCross2
-                                className='ml-2 cursor-pointer text-red-500'
-                                onClick={() => handleTagDelete(tag._id)}
-                            />
-                        </Badge>
+                        <Button
+                            loading={loading}
+                            key={tag._id}
+                            variant='ghost'
+                            className='w-fit p-0'>
+                            <Badge variant='default' className='text-md'>
+                                <p className='max-w-28 overflow-hidden text-ellipsis whitespace-nowrap'>
+                                    {tag.name}
+                                </p>
+                                <RxCross2
+                                    className='ml-2 cursor-pointer text-red-500'
+                                    onClick={() => handleTagDelete(tag._id)}
+                                />
+                            </Badge>
+                        </Button>
                     ))}
                 </div>
             )}
