@@ -7,7 +7,12 @@ import RightBar from './RightBar'
 import TabList from './TabList'
 
 const MainContent = () => {
-    const { notes, setSidebarOpen, addTab, selectedNote, setSelectedNote } = useStore()
+    const notes = useStore((state) => state.notes)
+    const setSidebarOpen = useStore((state) => state.setSidebarOpen)
+    const addTab = useStore((state) => state.addTab)
+    const selectedNote = useStore((state) => state.selectedNote)
+    const setSelectedNote = useStore((state) => state.setSelectedNote)
+    
     const [rightBarOpen, setRightBarOpen] = useState<boolean>(true)
     const [selectedNoteParams, setSelectedNoteParams] = useSearchParams({ 'selected-note': '' })
 

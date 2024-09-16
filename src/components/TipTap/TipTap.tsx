@@ -40,7 +40,8 @@ const extensions = [
 ]
 
 const TipTap = () => {
-    const { selectedNote } = useStore()
+    const selectedNote = useStore((state) => state.selectedNote)
+
     const { loading, removeTagFromNote } = useDeleteTagFromNote()
     const [parent] = useAutoAnimate()
 

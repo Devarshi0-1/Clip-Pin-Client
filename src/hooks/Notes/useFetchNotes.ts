@@ -5,7 +5,9 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const useFetchNotes = () => {
-    const { setNotes, setArchivedNotes, setBookmarkedNotes } = useStore()
+    const setNotes = useStore((state) => state.setNotes)
+    const setArchivedNotes = useStore((state) => state.setArchivedNotes)
+    const setBookmarkedNotes = useStore((state) => state.setBookmarkedNotes)
 
     const [loading, setLoading] = useState<boolean>(false)
 

@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const useFetchTags = () => {
-    const { setTags } = useStore()
+    const setTags = useStore((state) => state.setTags)
 
     const [loading, setLoading] = useState<boolean>(false)
 

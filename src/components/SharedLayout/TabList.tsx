@@ -4,7 +4,11 @@ import { X } from 'lucide-react'
 import { Button } from '../ui/button'
 
 const TabList = () => {
-    const { tabList, removeTab, selectedNote, setSelectedNote } = useStore()
+    const tabList = useStore((state) => state.tabList)
+    const removeTab = useStore((state) => state.removeTab)
+    const selectedNote = useStore((state) => state.selectedNote)
+    const setSelectedNote = useStore((state) => state.setSelectedNote)
+
     const [parent] = useAutoAnimate()
 
     return (

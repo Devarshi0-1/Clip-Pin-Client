@@ -6,8 +6,9 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const useDeleteTag = () => {
+    const deleteTagInStore = useStore((state) => state.deleteTag)
+
     const [loading, setLoading] = useState<boolean>(false)
-    const { deleteTag: deleteTagInStore } = useStore()
 
     const deleteTag = async (tagId: string) => {
         const validationErrors: boolean = handleInputErrors(tagId)

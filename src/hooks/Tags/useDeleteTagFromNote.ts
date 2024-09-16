@@ -7,10 +7,9 @@ import { useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const useDeleteTagFromNote = () => {
-    const {
-        removeTagFromNote: removeTagFromNoteInStore,
-        removeTagFromArchivedNote: removeTagFromArchivedNoteInStore,
-    } = useStore()
+    const removeTagFromNoteInStore = useStore((state) => state.removeTagFromNote)
+    const removeTagFromArchivedNoteInStore = useStore((state) => state.removeTagFromArchivedNote)
+
     const [loading, setLoading] = useState<boolean>(false)
     const location = useLocation()
 

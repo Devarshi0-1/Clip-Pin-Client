@@ -10,7 +10,12 @@ import Note from './Note'
 import SearchBar from './SearchBar'
 
 const RightBar = ({ rightBarOpen }: { rightBarOpen: boolean }) => {
-    const { notes, bookmarkedNotes, filteredNotes, archivedNotes, highlightMode } = useStore()
+    const notes = useStore((state) => state.notes)
+    const bookmarkedNotes = useStore((state) => state.bookmarkedNotes)
+    const filteredNotes = useStore((state) => state.filteredNotes)
+    const archivedNotes = useStore((state) => state.archivedNotes)
+    const highlightMode = useStore((state) => state.highlightMode)
+
     const [parent] = useAutoAnimate()
     const [parent2] = useAutoAnimate()
     const { pathname } = useLocation()

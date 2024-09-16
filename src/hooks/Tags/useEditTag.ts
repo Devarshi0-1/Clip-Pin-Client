@@ -6,8 +6,9 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const useEditTag = () => {
+    const editTagInStore = useStore(state => state.editTag)
+    
     const [loading, setLoading] = useState<boolean>(false)
-    const { editTag: editTagInStore } = useStore()
 
     const editTag = async (tagId: string, name: string) => {
         const validationErrors: boolean = handleInputErrors(tagId, name)

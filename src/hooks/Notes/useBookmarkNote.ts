@@ -6,10 +6,14 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const useBookmarkNote = () => {
+    const newNote = useStore((state) => state.newNote)
+    const newBookmarkNote = useStore((state) => state.newBookmarkNote)
+    const deleteNote = useStore((state) => state.deleteNote)
+    const deleteBookmarkedNote = useStore((state) => state.deleteBookmarkedNote)
+    const setSelectedNoteOpen = useStore((state) => state.setSelectedNoteOpen)
+    
     const [loading, setLoading] = useState<boolean>(false)
-    const { newNote, newBookmarkNote, deleteNote, deleteBookmarkedNote, setSelectedNoteOpen } =
-        useStore()
-
+    
     const bookmarkNote = async (note: TNote, isBookmarked: boolean) => {
         const validationErrors: boolean = handleInputErrors(note._id)
 

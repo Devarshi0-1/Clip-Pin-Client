@@ -2,7 +2,9 @@ import { TNote, TNotes, TSort } from '@/types'
 import useStore from '@/zustand/store'
 
 const useNoteSort = () => {
-    const { setNotes, setArchivedNotes, setBookmarkedNotes } = useStore()
+    const setNotes = useStore(state => state.setNotes)
+    const setArchivedNotes = useStore(state => state.setArchivedNotes)
+    const setBookmarkedNotes = useStore(state => state.setBookmarkedNotes)
 
     const sortNotes = (notes: TNote[], noteType: TNotes, type: TSort) => {
         switch (type) {

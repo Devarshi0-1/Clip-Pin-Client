@@ -6,7 +6,7 @@ import { useLocation, useSearchParams } from 'react-router-dom'
 import { Input } from '../ui/input'
 
 export default function SearchBar({ notesToFilter }: { notesToFilter: TNote[] }) {
-    const { setFilteredNotes } = useStore()
+    const setFilteredNotes = useStore((state) => state.setFilteredNotes)
     const [searchParams, setSearchParams] = useSearchParams({ search: '' })
     const location = useLocation()
 

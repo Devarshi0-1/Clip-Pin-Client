@@ -6,7 +6,8 @@ import Sort from './Sort'
 import MyLogo from '/my_Logo.svg'
 
 export default function NavBar() {
-    const { sidebarOpen, setSidebarOpen } = useStore()
+    const sidebarOpen = useStore((state) => state.sidebarOpen)
+    const setSidebarOpen = useStore((state) => state.setSidebarOpen)
 
     return (
         <div className='relative mb-6 flex w-full items-center justify-between bg-background p-5'>

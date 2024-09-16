@@ -38,8 +38,9 @@ import { Input } from '../ui/input'
 import { Popover, PopoverContent } from '../ui/popover'
 
 const MenuBar = () => {
+    const selectedNote = useStore((state) => state.selectedNote)
+
     const { editor } = useCurrentEditor()
-    const { selectedNote } = useStore()
     const { loading: addNoteLoading, addNote } = useAddNote()
     const { loading: editNoteLoading, editNote } = useNoteEdit()
 

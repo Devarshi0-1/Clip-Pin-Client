@@ -14,10 +14,14 @@ type TNoteProps = {
 }
 
 const Note = ({ note, highlightNotes, handleNoteHighlightNote }: TNoteProps) => {
+    const setSelectedNote = useStore((state) => state.setSelectedNote)
+    const addTab = useStore((state) => state.addTab)
+    const selectedNote = useStore((state) => state.selectedNote)
+    const highlightMode = useStore((state) => state.highlightMode)
+
     const { loading: deleteLoading, deleteNote } = useNoteDelete()
     const { loading: archiveLoading, archiveNote } = useArchivedNote()
     const { loading: bookmarkLoading, bookmarkNote } = useBookmarkNote()
-    const { setSelectedNote, addTab, selectedNote, highlightMode } = useStore()
 
     const handleNoteDelete = async (note: TNote) => {
         await deleteNote(note)

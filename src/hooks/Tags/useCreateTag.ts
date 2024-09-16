@@ -6,7 +6,8 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const useCreateTag = () => {
-    const { newTag } = useStore()
+    const newTag = useStore((state) => state.newTag)
+
     const [loading, setLoading] = useState<boolean>(false)
 
     const addTag = async (name: string) => {

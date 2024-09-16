@@ -7,8 +7,9 @@ import { useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const useAddTagToNote = () => {
-    const { addTagToNote: addTagToNoteInStore, addTagToArchivedNote: addTagToArchivedNoteInStore } =
-        useStore()
+    const addTagToNoteInStore = useStore((state) => state.addTagToNote)
+    const addTagToArchivedNoteInStore = useStore((state) => state.addTagToArchivedNote)
+
     const [loading, setLoading] = useState<boolean>(false)
     const location = useLocation()
 

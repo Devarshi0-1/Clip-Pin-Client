@@ -9,7 +9,10 @@ import { useState } from 'react'
 import Tag from './Tag'
 
 const TagsDialog = () => {
-    const { tagOpen, setTagOpen, tags } = useStore()
+    const tagOpen = useStore((state) => state.tagOpen)
+    const setTagOpen = useStore((state) => state.setTagOpen)
+    const tags = useStore((state) => state.tags)
+
     const { loading, addTag } = useCreateTag()
     const [parent] = useAutoAnimate()
 

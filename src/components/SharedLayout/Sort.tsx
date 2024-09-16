@@ -29,9 +29,12 @@ const sortingTypes: SortingOption[] = [
 ]
 
 const Sort = () => {
+    const notes = useStore((state) => state.notes)
+    const archivedNotes = useStore((state) => state.archivedNotes)
+    const bookmarkedNotes = useStore((state) => state.bookmarkedNotes)
+
     const [open, setOpen] = useState<boolean>(false)
     const [value, setValue] = useState<TSort>('latest')
-    const { notes, archivedNotes, bookmarkedNotes } = useStore()
     const { sortNotes } = useNoteSort()
     const [_, setSearchParams] = useSearchParams({ sort: '' })
     const location = useLocation()

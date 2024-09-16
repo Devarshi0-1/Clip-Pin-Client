@@ -8,7 +8,8 @@ import { Tag } from 'lucide-react'
 import { IoMdAdd } from 'react-icons/io'
 
 const AddTagPopover = () => {
-    const { tags: userAllTags, selectedNote } = useStore()
+    const userAllTags = useStore((state) => state.tags)
+    const selectedNote = useStore((state) => state.selectedNote)
 
     const { loading, addTagToNote } = useAddTagToNote()
 

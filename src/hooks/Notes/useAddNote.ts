@@ -6,7 +6,8 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const useAddNote = () => {
-    const { newNote } = useStore()
+    const newNote = useStore((state) => state.newNote)
+
     const [loading, setLoading] = useState<boolean>(false)
 
     const addNote = async (title: string, content: string) => {

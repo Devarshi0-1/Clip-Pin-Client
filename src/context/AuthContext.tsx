@@ -10,7 +10,6 @@ export type TUser = {
     username: string
     fullName: string
     gender: string
-    profilePic: string
     password?: string
 } | null
 

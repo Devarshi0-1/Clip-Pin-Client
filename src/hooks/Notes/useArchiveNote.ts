@@ -7,9 +7,14 @@ import { useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const useArchivedNote = () => {
+    const newNote = useStore(state => state.newNote)
+    const newArchivedNote = useStore(state => state.newArchivedNote)
+    const deleteNote = useStore(state => state.deleteNote)
+    const deleteArchivedNote = useStore(state => state.deleteArchivedNote)
+    const setSelectedNoteOpen = useStore(state => state.setSelectedNoteOpen)
+    
     const [loading, setLoading] = useState<boolean>(false)
-    const { newNote, newArchivedNote, deleteNote, deleteArchivedNote, setSelectedNoteOpen } =
-        useStore()
+    
     const location = useLocation()
 
     const archiveNote = async (note: TNote, isArchived: boolean) => {

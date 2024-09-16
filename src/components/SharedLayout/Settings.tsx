@@ -12,7 +12,9 @@ import { Switch } from '../ui/switch'
 import CustomizeTheme from './Customize-Theme'
 
 const Settings = () => {
-    const { highlightMode, setHighlightMode, setTagOpen } = useStore()
+    const highlightMode = useStore((state) => state.highlightMode)
+    const setHighlightMode = useStore((state) => state.setHighlightMode)
+    const setTagOpen = useStore((state) => state.setTagOpen)
 
     return (
         <Dialog>

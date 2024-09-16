@@ -7,17 +7,17 @@ import { useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const useBatchDeleteNote = () => {
+    const deleteNoteInStore = useStore((state) => state.deleteNote)
+    const deleteArchivedNoteInStore = useStore((state) => state.deleteArchivedNote)
+    const deleteBookmarkedNoteInStore = useStore((state) => state.deleteBookmarkedNote)
+    const notes = useStore((state) => state.notes)
+    const removeTab = useStore((state) => state.removeTab)
+    const setNotes = useStore((state) => state.setNotes)
+    const setSelectedNoteOpen = useStore((state) => state.setSelectedNoteOpen)
+    const setSelectedNote = useStore((state) => state.setSelectedNote)
+
     const [loading, setLoading] = useState<boolean>(false)
-    const {
-        deleteNote: deleteNoteInStore,
-        deleteArchivedNote: deleteArchivedNoteInStore,
-        deleteBookmarkedNote: deleteBookmarkedNoteInStore,
-        notes,
-        removeTab,
-        setNotes,
-        setSelectedNoteOpen,
-        setSelectedNote,
-    } = useStore()
+
     const location = useLocation()
 
     const batchDeleteNotes = async (notesToDelete: TNote[]) => {

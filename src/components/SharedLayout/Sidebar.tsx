@@ -8,7 +8,10 @@ import { Button } from '../ui/button'
 import MyLogo from '/my_Logo.svg'
 
 export function Sidebar() {
-    const { sidebarOpen, setSidebarOpen, setSelectedNote } = useStore()
+    const sidebarOpen = useStore((state) => state.sidebarOpen)
+    const setSidebarOpen = useStore((state) => state.setSidebarOpen)
+    const setSelectedNote = useStore((state) => state.setSelectedNote)
+
     const { pathname } = useLocation()
     const { loading, logout } = useLogout()
 

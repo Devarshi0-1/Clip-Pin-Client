@@ -7,12 +7,12 @@ import { useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const useEditNote = () => {
+    const editNoteInStore = useStore((state) => state.editNote)
+    const editArchivedNoteInStore = useStore((state) => state.editArchivedNote)
+    const editBookmarkedNoteInStore = useStore((state) => state.editBookmarkedNote)
+
     const [loading, setLoading] = useState<boolean>(false)
-    const {
-        editNote: editNoteInStore,
-        editArchivedNote: editArchivedNoteInStore,
-        editBookmarkedNote: editBookmarkedNoteInStore,
-    } = useStore()
+
     const location = useLocation()
 
     const editNote = async (note: TNote, title: string, content: string) => {
